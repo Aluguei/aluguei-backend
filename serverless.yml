@@ -9,7 +9,7 @@ provider:
   lambdaHashingVersion: 20201221
 functions:
   main:
-    handler: dist/main.handler
+    handler: dist/index.handler
     events:
       - http:
           method: ANY
