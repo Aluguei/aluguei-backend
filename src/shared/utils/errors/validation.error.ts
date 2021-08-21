@@ -5,16 +5,8 @@ interface IData {
   fields?: Record<string, string>[]
 }
 
-interface IValidationError {
-  data: IData
-  status?: number
-}
-
 export class ValidationError extends HttpException {
-  constructor({
-    data,
-    status = HttpStatus.UNPROCESSABLE_ENTITY
-  }: IValidationError) {
+  constructor(data: IData, status: number = HttpStatus.UNPROCESSABLE_ENTITY) {
     super(data, status)
   }
 }

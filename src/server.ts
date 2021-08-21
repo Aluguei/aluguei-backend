@@ -6,6 +6,8 @@ import { appConfig, IAppConfig } from './config'
 import { setupSwagger } from './swagger'
 import { LoggerService } from './shared'
 
+import { ExceptionHandlingFilter } from './shared/filters'
+
 export class Server {
   private app: NestExpressApplication
 
@@ -16,6 +18,7 @@ export class Server {
 
   async setupApp() {
     this.app = await NestFactory.create<NestExpressApplication>(AppModule)
+    this.app.useGlobalFilters(new ExceptionHandlingFilter())
   }
 
   async start() {
