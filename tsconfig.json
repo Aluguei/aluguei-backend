@@ -10,8 +10,18 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@src": ["src"],
+
+      "@modules/*": ["src/modules/*"],
+      "@modules": ["src/modules"],
+      "@config/*": ["src/config/*"],
+      "@config": ["src/config"],
+      "@shared/*": ["src/shared/*"],
+      "@shared": ["src/shared"]
+    },
     "incremental": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true
+    "skipLibCheck": true
   }
 }

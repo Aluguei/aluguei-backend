@@ -1,23 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import serverlessExpress from '@vendia/serverless-express';
-import { Callback, Context, Handler } from 'aws-lambda';
-import { AppModule } from './app.module';
+import * as dotenv from 'dotenv'
 
-let server: Handler;
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
-async function bootstrap(): Promise<Handler> {
-  const app = await NestFactory.create(AppModule);
-  await app.init();
+import { appConfig } from './config'
+import { Server } from './server'
 
-  const expressApp = app.getHttpAdapter().getInstance();
-  return serverlessExpress({ app: expressApp });
-}
+const server = new Server(appConfig)
 
-export const handler: Handler = async (
-    event: any,
-    context: Context,
-    callback: Callback,
-) => {
-  server = server ?? (await bootstrap());
-  return server(event, context, callback);
-};
+server.start()
