@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Entity,
+  Column
+} from 'typeorm'
 import { PasswordTransformer } from './password.transformer'
 
 @Entity({
@@ -23,6 +29,12 @@ export class User {
     transformer: new PasswordTransformer()
   })
   password: string
+
+  @CreateDateColumn()
+  created_at: Date
+
+  @UpdateDateColumn()
+  updated_at: Date
 
   toJSON() {
     delete this.password
