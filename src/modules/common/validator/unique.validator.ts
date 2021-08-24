@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectConnection } from '@nestjs/typeorm'
 import { Connection, EntitySchema, FindConditions, ObjectType } from 'typeorm'
 import {
-  ValidatorConstraint,
   ValidatorConstraintInterface,
+  ValidatorConstraint,
   ValidationArguments,
   ValidationOptions,
   registerDecorator

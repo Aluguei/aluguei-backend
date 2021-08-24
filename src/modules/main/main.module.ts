@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { MainController, MainService } from '.'
-import { CommonModule } from '@modules/common'
+import { Module } from '@nestjs/common'
+
+import { CommonModule, AuthModule } from '@modules'
 import { dbConfig } from '@config'
-import { AuthModule } from '@modules/auth'
+
+import { MainController, MainService } from '.'
 
 @Module({
   imports: [

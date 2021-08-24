@@ -1,11 +1,10 @@
 import { Get, Controller } from '@nestjs/common'
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { ApiTags } from '@nestjs/swagger'
 
-@ApiBearerAuth()
-@Controller()
+@Controller('/api')
 @ApiTags('Main')
 export class MainController {
-  @Get('status')
+  @Get('/status')
   getStatus() {
     return { ok: true }
   }

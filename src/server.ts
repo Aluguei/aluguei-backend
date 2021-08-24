@@ -4,9 +4,10 @@ import { AppModule } from './app.module'
 
 import { appConfig, IAppConfig } from './config'
 import { setupSwagger } from './swagger'
-import { LoggerService } from './shared'
 
 import { ExceptionHandlingFilter } from './shared/filters'
+
+import { LoggerService } from '@shared/services'
 
 export class Server {
   private app: NestExpressApplication
@@ -31,11 +32,13 @@ export class Server {
   private print() {
     const { name, nodeEnv, port } = appConfig
 
+    this.loggerService.log({ namespace: 'API', message: '' })
     this.loggerService.log({ namespace: 'API', message: `Name: ${name}!` })
     this.loggerService.log({
       namespace: 'API',
       message: `Node Env: ${nodeEnv}!`
     })
     this.loggerService.log({ namespace: 'API', message: `Port: ${port}!` })
+    this.loggerService.log({ namespace: 'API', message: '' })
   }
 }
