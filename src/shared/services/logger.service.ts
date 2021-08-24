@@ -28,10 +28,14 @@ export class LoggerService {
     this.log({ message })
   }
 
-  error(exception: HttpException) {
-    const message = `${exception.getStatus()} - ${exception.name} - ${
-      exception.message
-    } - ${exception.stack}`
+  error(exception: HttpException | string) {
+    let message = exception
+
+    if (typeof exception === 'object' && 'getStatus' in exception) {
+      message = `${exception.getStatus()} - ${exception.name} - ${
+        exception.message
+      } - ${exception.stack}`
+    }
 
     this.log({
       message,
