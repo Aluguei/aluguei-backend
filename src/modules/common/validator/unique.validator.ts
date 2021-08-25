@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectConnection } from '@nestjs/typeorm'
 import { Connection, EntitySchema, FindConditions, ObjectType } from 'typeorm'
 import {
-  ValidatorConstraintInterface,
   ValidatorConstraint,
+  ValidatorConstraintInterface,
   ValidationArguments,
   ValidationOptions,
   registerDecorator
@@ -47,7 +47,7 @@ export function Unique<E>(
   constraints: Partial<UniqueValidationConstraints<E>>,
   validationOptions?: ValidationOptions
 ) {
-  return function (object: Object, propertyName: string) {
+  return function (object: any, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
