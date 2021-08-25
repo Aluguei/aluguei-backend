@@ -11,9 +11,9 @@ const toSys = {
 }
 
 const toHuman = {
-  female: 'Female',
-  other: 'Other',
-  male: 'Male'
+  female: 'Feminino',
+  male: 'Masculino',
+  other: 'Outro'
 }
 
 export const UserGenderEnum = {

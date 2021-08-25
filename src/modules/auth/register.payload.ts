@@ -1,50 +1,55 @@
 import { SameAs } from '@modules/common/validator/same-as.validator'
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator'
+import { IsEmail, IsNotEmpty, MinLength, IsEnum } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
-import { Unique } from '@modules/common'
-import { User, UserGender } from '@modules/user'
+
+import { UserGender, UserGenderEnum } from '@modules/user'
+import { CPF, CEP, RG } from '@modules/common'
 
 export class RegisterPayload {
   @ApiProperty({
     required: true
   })
-  @IsEmail()
-  @Unique([User])
+  // @Unique([User])
+  @IsEmail({}, { message: 'email precisar ser um email válido' })
+  @IsNotEmpty({ message: 'email é obrigatório' })
   email: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'firstName é obrigatório' })
   firstName: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'lastName é obrigatório' })
   lastName: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'password é obrigatório' })
   @MinLength(5)
   password: string
 
   @ApiProperty({ required: true })
   @SameAs('password')
+  @IsNotEmpty({ message: 'passwordConfirmation é obrigatório' })
   passwordConfirmation: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'RG é obrigatório' })
+  @RG()
   RG: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'CPF é obrigatório' })
+  @CPF()
   CPF: string
 
   @ApiProperty({
@@ -52,56 +57,60 @@ export class RegisterPayload {
     type: 'enum',
     enum: UserGender
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'gender é obrigatório' })
+  @IsEnum(UserGender, {
+    message: `gender precisa ser uma das opções:  ${UserGenderEnum.availableHuman.join(
+      ', '
+    )}`
+  })
   gender: UserGender
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'phoneOne é obrigatório' })
   phoneOne: string
 
   @ApiProperty()
-  @IsNotEmpty()
   phoneTwo: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'CEP é obrigatório' })
+  @CEP()
   CEP: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'state é obrigatório' })
   state: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'city é obrigatório' })
   city: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'address é obrigatório' })
   address: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'neighborhood é obrigatório' })
   neighborhood: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'number é obrigatório' })
   number: string
 
   @ApiProperty()
-  @IsNotEmpty()
   complement: string
 }

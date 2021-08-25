@@ -2,7 +2,8 @@ import {
   ExceptionFilter,
   Catch,
   ArgumentsHost,
-  HttpException
+  HttpException,
+  BadRequestException
 } from '@nestjs/common'
 
 import { Request, Response } from 'express'
@@ -18,7 +19,10 @@ export class ExceptionHandlingFilter implements ExceptionFilter {
     private readonly errorLogService: ErrorLogService = new ErrorLogService()
   ) {}
 
-  async catch(exception: HttpException, host: ArgumentsHost) {
+  async catch(
+    exception: HttpException | BadRequestException,
+    host: ArgumentsHost
+  ) {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<Response>()
     const status = exception.getStatus ? exception.getStatus() : 500
@@ -37,7 +41,9 @@ export class ExceptionHandlingFilter implements ExceptionFilter {
       url
     } = ctx.getRequest<Request>()
 
-    this.loggerService.error(exception)
+    // this.loggerService.error(exception)
+
+    console.log(exception)
 
     try {
       await this.errorLogService.create({
@@ -63,8 +69,25 @@ export class ExceptionHandlingFilter implements ExceptionFilter {
         }
       })
     } catch (error) {
-      console.log(error)
       this.loggerService.error('Erro ao salvar log')
+    }
+
+    if (exception instanceof BadRequestException) {
+      const res = exception.getResponse() as { message: string[] }
+      const fields = res.message.map((message) => {
+        const splittedMessage = message.split(' ')
+        const field = splittedMessage.shift()
+
+        return {
+          [field]: splittedMessage.join(' ')
+        }
+      })
+
+      const statusCode = exception.getStatus()
+
+      return response
+        .status(400)
+        .json({ fields, statusCode, message: exception.message })
     }
 
     return response.status(status).json({
