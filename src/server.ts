@@ -8,6 +8,7 @@ import { setupSwagger } from './swagger'
 import { ExceptionHandlingFilter } from './shared/filters'
 
 import { LoggerService } from '@shared/services'
+import { ValidationPipe } from '@nestjs/common'
 
 export class Server {
   private app: NestExpressApplication
@@ -20,11 +21,12 @@ export class Server {
   async setupApp() {
     this.app = await NestFactory.create<NestExpressApplication>(AppModule)
     this.app.useGlobalFilters(new ExceptionHandlingFilter())
+    this.app.useGlobalPipes(new ValidationPipe())
   }
 
   async start() {
     await this.setupApp()
-    await setupSwagger(this.app)
+    setupSwagger(this.app)
     await this.app.listen(this.appConfig.port)
     this.print()
   }
