@@ -6,10 +6,10 @@ export interface IAppConfig {
   port: number
 }
 
-const { APP_NAME, NODE_ENV, APP_PORT } = env
+const { APP_NAME, NODE_ENV, APP_PORT, PORT } = env
 
 export const appConfig = {
   name: APP_NAME,
   nodeEnv: NODE_ENV,
-  port: +APP_PORT
+  port: +APP_PORT || +PORT || 3333
 }
