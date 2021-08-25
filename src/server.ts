@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
 
-import { appConfig, IAppConfig } from './config'
+import { appConfig } from './config'
 import { setupSwagger } from './swagger'
 
 import { ExceptionHandlingFilter } from './shared/filters'
@@ -13,10 +13,7 @@ import { ValidationPipe } from '@nestjs/common'
 export class Server {
   private app: NestExpressApplication
 
-  constructor(
-    private readonly appConfig: IAppConfig,
-    private readonly loggerService = new LoggerService()
-  ) {}
+  constructor(private readonly loggerService = new LoggerService()) {}
 
   async setupApp() {
     this.app = await NestFactory.create<NestExpressApplication>(AppModule)
