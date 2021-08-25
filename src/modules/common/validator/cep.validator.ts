@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { InjectConnection } from '@nestjs/typeorm'
-import { Connection } from 'typeorm'
+
 import {
   ValidatorConstraintInterface,
   ValidatorConstraint,
@@ -8,12 +7,10 @@ import {
 } from 'class-validator'
 
 @Injectable()
-@ValidatorConstraint({ name: 'cep', async: false })
+@ValidatorConstraint({ name: 'cep' })
 export class CEPValidator implements ValidatorConstraintInterface {
-  constructor(@InjectConnection() private readonly connection: Connection) {}
-
-  public async validate(value: string) {
-    return value.length === 18
+  public validate(value: string) {
+    return /\d{5}-\d{3}/.test(value)
   }
 
   defaultMessage() {

@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, MinLength, IsEnum } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
 import { UserGender, UserGenderEnum } from '@modules/user'
-import { CPF, CEP, RG } from '@modules/common'
+import { CPF, CEP } from '@modules/common'
 
 export class RegisterPayload {
   @ApiProperty({
@@ -42,7 +42,6 @@ export class RegisterPayload {
     required: true
   })
   @IsNotEmpty({ message: 'RG é obrigatório' })
-  @RG()
   RG: string
 
   @ApiProperty({
