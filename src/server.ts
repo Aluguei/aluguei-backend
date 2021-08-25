@@ -27,7 +27,7 @@ export class Server {
   async start() {
     await this.setupApp()
     setupSwagger(this.app)
-    await this.app.listen(this.appConfig.port)
+    await this.app.listen(process.env.PORT || 3333)
     this.print()
   }
 
