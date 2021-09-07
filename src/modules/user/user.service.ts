@@ -11,6 +11,17 @@ export class UsersService {
     private readonly userRepository: Repository<User>
   ) {}
 
+  async findOneByQuery(
+    query: Record<string, string>,
+    { throwError = false } = {}
+  ) {
+    const user = this.userRepository.findOne(query)
+
+    if (!user && throwError) throw new NotAcceptableException('User not found.')
+
+    return user
+  }
+
   async get(id: number) {
     return this.userRepository.findOne({ id })
   }
@@ -29,5 +40,10 @@ export class UsersService {
     }
 
     return await this.userRepository.save(payload)
+  }
+
+  async createForgotPasswordToken(user: User) {
+    const { fullName, email, id } = user.toJSON()
+    return { fullName, email, id }
   }
 }

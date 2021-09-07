@@ -3,14 +3,17 @@ import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 import { AuthGuard } from '@nestjs/passport'
 import { AuthService, LoginPayload, RegisterPayload } from './'
 import { User, UsersService } from '@modules/user'
+import { UserPasswordResetsService } from '@modules/userPasswordResetRequest'
 import { CurrentUser } from '@modules/common/decorator/current-user.decorator'
+import { ForgotPasswordPayload } from './forgotPassword.payload'
 
 @Controller('api/auth')
 @ApiTags('Authenticaion')
 export class AuthController {
   constructor(
-    private readonly authService: AuthService,
-    private readonly userService: UsersService
+    private readonly userPasswordResetsService: UserPasswordResetsService,
+    private readonly userService: UsersService,
+    private readonly authService: AuthService
   ) {}
 
   @Post('login')
@@ -38,5 +41,25 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getLoggedInUser(@CurrentUser() user: User): Promise<User> {
     return user
+  }
+
+  @Post('forgot-password')
+  @ApiResponse({ status: 201, description: 'Success' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async forgotPassword(@Body() payload: ForgotPasswordPayload): Promise<any> {
+    const { CPF } = payload
+
+    const user = await this.userService.findOneByQuery(
+      { CPF },
+      { throwError: true }
+    )
+
+    const { fullName, email } = user.toJSON()
+    const { token } = await this.userPasswordResetsService.createOne({ user })
+
+    // TODO - Send Email
+
+    return { fullName, email, token }
   }
 }

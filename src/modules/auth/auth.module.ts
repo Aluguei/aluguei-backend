@@ -8,9 +8,11 @@ import { JwtStrategy } from './jwt.strategy'
 
 import { authConfig } from '@config/auth.config'
 import { UserModule } from '@modules/user'
+import { UserPasswordResetRequestModule } from '@modules/userPasswordResetRequest'
 
 @Module({
   imports: [
+    UserPasswordResetRequestModule,
     UserModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
