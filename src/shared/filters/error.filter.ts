@@ -3,7 +3,8 @@ import {
   Catch,
   ArgumentsHost,
   HttpException,
-  BadRequestException
+  BadRequestException,
+  NotAcceptableException
 } from '@nestjs/common'
 
 import { Request, Response } from 'express'
@@ -25,6 +26,7 @@ export class ExceptionHandlingFilter implements ExceptionFilter {
   ) {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<Response>()
+
     const status = exception.getStatus ? exception.getStatus() : 500
 
     const {
@@ -41,9 +43,7 @@ export class ExceptionHandlingFilter implements ExceptionFilter {
       url
     } = ctx.getRequest<Request>()
 
-    // this.loggerService.error(exception)
-
-    console.log(exception)
+    this.loggerService.error(exception)
 
     try {
       await this.errorLogService.create({
@@ -88,6 +88,11 @@ export class ExceptionHandlingFilter implements ExceptionFilter {
       return response
         .status(400)
         .json({ fields, statusCode, message: exception.message })
+    }
+
+    if (exception instanceof NotAcceptableException) {
+      const { message, name, stack } = exception
+      return response.status(status).json({ message, name, stack, status })
     }
 
     return response.status(status).json({
