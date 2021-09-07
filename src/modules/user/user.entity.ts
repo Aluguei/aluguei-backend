@@ -3,7 +3,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Entity,
-  Column
+  Column,
+  OneToMany
 } from 'typeorm'
 
 import { PasswordTransformer } from './password.transformer'
@@ -11,6 +12,8 @@ import { PasswordTransformer } from './password.transformer'
 import { UserGenderEnum } from './userGender.enum'
 
 const { availableSys } = UserGenderEnum
+
+import { UserPasswordResetRequest } from '../userPasswordResetRequest'
 
 @Entity({
   name: 'users'
@@ -74,6 +77,12 @@ export class User {
   @Column({ length: 255, nullable: true })
   complement: string
 
+  @OneToMany(
+    () => UserPasswordResetRequest,
+    (userPasswordReset) => userPasswordReset.user
+  )
+  passwordResetRequests: UserPasswordResetRequest[]
+
   @CreateDateColumn()
   created_at: Date
 
@@ -82,8 +91,10 @@ export class User {
 
   toJSON() {
     delete this.password
+    const fullName = `${this.firstName} ${this.lastName}`
     const { password, ...self } = this
-    return self
+
+    return { ...self, fullName }
   }
 }
 
