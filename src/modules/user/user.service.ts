@@ -16,7 +16,7 @@ export class UsersService {
     query: Record<string, string>,
     { throwError = false } = {}
   ) {
-    const user = this.userRepository.findOne(query)
+    const user = await this.userRepository.findOne(query)
 
     if (!user && throwError) throw new NotAcceptableException('User not found.')
 
