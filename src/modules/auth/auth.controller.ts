@@ -1,12 +1,13 @@
-import { Controller, Body, Post, UseGuards, Get } from '@nestjs/common'
+import { CurrentUser } from '@modules/common/decorator/current-user.decorator'
+import { UserPasswordResetsService } from '@modules/userPasswordResetRequest'
+import { Controller, Body, Post, UseGuards, Get, Put } from '@nestjs/common'
 import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 import { AuthGuard } from '@nestjs/passport'
-import { AuthService, LoginPayload, RegisterPayload } from './'
-import { User, UsersService } from '@modules/user'
-import { UserPasswordResetsService } from '@modules/userPasswordResetRequest'
-import { CurrentUser } from '@modules/common/decorator/current-user.decorator'
+
 import { ForgotPasswordPayload } from './forgotPassword.payload'
+import { AuthService, LoginPayload, RegisterPayload } from './'
 import { ResetPasswordPayload } from './resetPassword.payload'
+import { User, UsersService } from '@modules/user'
 
 @Controller('api/auth')
 @ApiTags('Authenticaion')
@@ -63,7 +64,7 @@ export class AuthController {
     })
   }
 
-  @Post('reset-password')
+  @Put('reset-password')
   @ApiResponse({ status: 201, description: 'Success' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
