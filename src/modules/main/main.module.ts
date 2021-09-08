@@ -5,6 +5,8 @@ import { CommonModule, AuthModule } from '@modules'
 import { MailModule } from '@modules/mail'
 import { dbConfig } from '@config'
 
+import { UserModule } from '../user/user.module'
+
 import { MainController, MainService } from '.'
 
 @Module({
@@ -14,7 +16,8 @@ import { MainController, MainService } from '.'
     }),
     AuthModule,
     CommonModule,
-    MailModule
+    MailModule,
+    UserModule
   ],
   controllers: [MainController],
   providers: [MainService]

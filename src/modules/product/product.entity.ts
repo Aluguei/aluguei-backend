@@ -1,14 +1,22 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany
+} from 'typeorm'
+import { UsersProducts } from '../usersProducts/usersProducts.entity'
 
 @Entity({
-  name: 'products'
+  name: 'materials'
 })
 export class Product {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column()
-  active: boolean
+  @Column({ default: true })
+  isActive: boolean
 
   @Column({ length: 255 })
   name: string
@@ -16,20 +24,26 @@ export class Product {
   @Column({ length: 255 })
   description: string
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable: true })
   category: string
-
-  @Column({ nullable: true })
-  stars: 'float'
-
-  @Column()
-  quantity: number
-
-  @Column({ nullable: true })
-  timesLent: number
 
   @Column()
   price: number
+
+  @Column()
+  timeUnit: number
+
+  @Column()
+  timeQuantity: string
+
+  @OneToMany(() => UsersProducts, (userProducts) => userProducts.product)
+  loans: UsersProducts[]
+
+  @CreateDateColumn()
+  created_at: Date
+
+  @UpdateDateColumn()
+  updated_at: Date
 }
 
 export class ProductFillableFields {
