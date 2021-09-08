@@ -6,6 +6,7 @@ import { User, UsersService } from '@modules/user'
 import { UserPasswordResetsService } from '@modules/userPasswordResetRequest'
 import { CurrentUser } from '@modules/common/decorator/current-user.decorator'
 import { ForgotPasswordPayload } from './forgotPassword.payload'
+import { ResetPasswordPayload } from './resetPassword.payload'
 
 @Controller('api/auth')
 @ApiTags('Authenticaion')
@@ -43,25 +44,43 @@ export class AuthController {
     return user
   }
 
-  @Post('forgot-password')
+  @Post('request-forgot-password')
   @ApiResponse({ status: 201, description: 'Success' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async forgotPassword(@Body() payload: ForgotPasswordPayload): Promise<any> {
+  async forgotPassword(@Body() payload: ForgotPasswordPayload): Promise<void> {
     const { CPF } = payload
-
     const user = await this.userService.findOneByQuery(
       { CPF },
       { throwError: true }
     )
-
     const { fullName, email } = user.toJSON()
     const { token } = await this.userPasswordResetsService.createOne({ user })
-
     await this.authService.sendForgottenPasswordEmail({
       fullName,
       email,
       token
     })
+  }
+
+  @Post('reset-password')
+  @ApiResponse({ status: 201, description: 'Success' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async resetPassword(@Body() payload: ResetPasswordPayload): Promise<any> {
+    const { password, token } = payload
+
+    const userResetToken = await this.userPasswordResetsService.findOneByQuery(
+      {
+        token
+      },
+      { throwError: true }
+    )
+
+    await this.userService.update(userResetToken.user.id, {
+      password
+    })
+
+    await this.userPasswordResetsService.deleteOne(userResetToken.id)
   }
 }

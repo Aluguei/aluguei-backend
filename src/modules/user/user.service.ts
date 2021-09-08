@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { User, UserFillableFields } from './user.entity'
+import { UserUpdatePayload } from './userUpdate.payload'
 
 @Injectable()
 export class UsersService {
@@ -40,6 +41,14 @@ export class UsersService {
     }
 
     return await this.userRepository.save(payload)
+  }
+
+  async update(id: number, payload: UserUpdatePayload) {
+    const user = await this.get(id)
+
+    if (!user) throw new NotAcceptableException('User not found')
+
+    return await this.userRepository.update({ id }, payload)
   }
 
   async createForgotPasswordToken(user: User) {

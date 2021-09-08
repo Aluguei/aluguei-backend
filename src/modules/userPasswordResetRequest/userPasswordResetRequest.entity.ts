@@ -18,7 +18,7 @@ export class UserPasswordResetRequest {
   @Column({ type: 'uuid' })
   token: string
 
-  @ManyToOne(() => User, (user) => user.passwordResetRequests)
+  @ManyToOne(() => User, (user) => user.passwordResetRequests, { eager: true })
   user: User
 
   @CreateDateColumn()
