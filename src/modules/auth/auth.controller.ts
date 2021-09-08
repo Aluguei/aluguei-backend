@@ -58,8 +58,10 @@ export class AuthController {
     const { fullName, email } = user.toJSON()
     const { token } = await this.userPasswordResetsService.createOne({ user })
 
-    // TODO - Send Email
-
-    return { fullName, email, token }
+    await this.authService.sendForgottenPasswordEmail({
+      fullName,
+      email,
+      token
+    })
   }
 }

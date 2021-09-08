@@ -10,3 +10,9 @@ export class ForgotPasswordPayload {
   @CPF()
   CPF: string
 }
+
+export class SendForgottenPasswordEmailPayload {
+  fullName: string
+  email: string
+  token: string
+}

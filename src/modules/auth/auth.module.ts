@@ -9,6 +9,7 @@ import { JwtStrategy } from './jwt.strategy'
 import { authConfig } from '@config/auth.config'
 import { UserModule } from '@modules/user'
 import { UserPasswordResetRequestModule } from '@modules/userPasswordResetRequest'
+import { MailModule } from '@modules/mail'
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { UserPasswordResetRequestModule } from '@modules/userPasswordResetReques
           }
         }
       }
-    })
+    }),
+    MailModule
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
