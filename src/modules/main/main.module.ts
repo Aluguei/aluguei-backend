@@ -2,6 +2,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 
 import { CommonModule, AuthModule } from '@modules'
+import { MailModule } from '@modules/mail'
 import { dbConfig } from '@config'
 
 import { MainController, MainService } from '.'
@@ -12,7 +13,8 @@ import { MainController, MainService } from '.'
       useFactory: () => dbConfig
     }),
     AuthModule,
-    CommonModule
+    CommonModule,
+    MailModule
   ],
   controllers: [MainController],
   providers: [MainService]
