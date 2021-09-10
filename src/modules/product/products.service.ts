@@ -16,6 +16,16 @@ export class ProductsService {
     return await this.productRepository.save({ ...payload, owner: user })
   }
 
+  async update(id: number, payload: ProductFillableFields) {
+    try {
+      await this.productRepository.findOneOrFail(id)
+    } catch {
+      throw new Error('Product not found')
+    }
+
+    await this.productRepository.update(id, payload)
+  }
+
   async get(id: number) {
     return await this.productRepository.findOne({ id })
   }

@@ -1,11 +1,11 @@
 import {
-  Entity,
-  Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
-  ManyToOne
+  ManyToOne,
+  Entity,
+  Column
 } from 'typeorm'
 
 import { UsersProducts } from '@modules/usersProducts/usersProducts.entity'
