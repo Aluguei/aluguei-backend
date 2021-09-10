@@ -13,8 +13,9 @@ import { UserGenderEnum } from './userGender.enum'
 
 const { availableSys } = UserGenderEnum
 
-import { UserPasswordResetRequest } from '../userPasswordResetRequest'
-import { UsersProducts } from '../usersProducts/usersProducts.entity'
+import { UserPasswordResetRequest } from '@modules/userPasswordResetRequest'
+import { UsersProducts } from '@modules/usersProducts/usersProducts.entity'
+import { Product } from '@modules/product/product.entity'
 
 @Entity({
   name: 'users'
@@ -84,8 +85,8 @@ export class User {
   )
   passwordResetRequests: UserPasswordResetRequest[]
 
-  @OneToMany(() => UsersProducts, (userProducts) => userProducts.owner)
-  ownedProducts: UsersProducts[]
+  @OneToMany(() => Product, (product) => product.owner)
+  ownedProducts: Product[]
 
   @OneToMany(() => UsersProducts, (userProducts) => userProducts.user)
   lentProducts: UsersProducts[]

@@ -4,9 +4,12 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany
+  OneToMany,
+  ManyToOne
 } from 'typeorm'
-import { UsersProducts } from '../usersProducts/usersProducts.entity'
+
+import { UsersProducts } from '@modules/usersProducts/usersProducts.entity'
+import { User } from '@modules/user'
 
 @Entity({
   name: 'products'
@@ -35,6 +38,9 @@ export class Product {
 
   @Column()
   timeQuantity: string
+
+  @ManyToOne(() => User, (user) => user.ownedProducts, { nullable: false })
+  owner: User
 
   @OneToMany(() => UsersProducts, (userProducts) => userProducts.product)
   loans: UsersProducts[]

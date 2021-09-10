@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
-import { Product } from '../product/product.entity'
-import { User } from '../user/user.entity'
+import { Product } from '@modules/product/product.entity'
+import { User } from '@modules/user/user.entity'
 
 @Entity({
   name: 'usersProducts'
@@ -8,9 +8,6 @@ import { User } from '../user/user.entity'
 export class UsersProducts {
   @PrimaryGeneratedColumn()
   id: number
-
-  @ManyToOne(() => User, (user) => user.ownedProducts, { eager: true })
-  owner: User
 
   @ManyToOne(() => Product, (product) => product.loans, { eager: true })
   product: Product
