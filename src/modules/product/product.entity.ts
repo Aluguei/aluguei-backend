@@ -53,10 +53,10 @@ export class Product {
 }
 
 export class ProductFillableFields {
-  name: string
+  timeQuantity: string
   description: string
   category: string
-  price: number
   timeUnit: number
-  timeQuantity: string
+  price: number
+  name: string
 }
