@@ -91,10 +91,10 @@ export class User {
   lentProducts: UsersProducts[]
 
   @CreateDateColumn()
-  created_at: Date
+  createdAt: Date
 
   @UpdateDateColumn()
-  updated_at: Date
+  updatedAt: Date
 
   toJSON() {
     delete this.password

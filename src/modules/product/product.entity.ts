@@ -9,7 +9,7 @@ import {
 import { UsersProducts } from '../usersProducts/usersProducts.entity'
 
 @Entity({
-  name: 'materials'
+  name: 'products'
 })
 export class Product {
   @PrimaryGeneratedColumn()
@@ -40,10 +40,10 @@ export class Product {
   loans: UsersProducts[]
 
   @CreateDateColumn()
-  created_at: Date
+  createdAt: Date
 
   @UpdateDateColumn()
-  updated_at: Date
+  updatedAt: Date
 }
 
 export class ProductFillableFields {
