@@ -5,7 +5,8 @@ import { CommonModule, AuthModule } from '@modules'
 import { MailModule } from '@modules/mail'
 import { dbConfig } from '@config'
 
-import { UserModule } from '../user/user.module'
+import { UserModule } from '@modules/user/user.module'
+import { ProductsModule } from '@modules/product'
 
 import { MainController, MainService } from '.'
 
@@ -14,8 +15,9 @@ import { MainController, MainService } from '.'
     TypeOrmModule.forRootAsync({
       useFactory: () => dbConfig
     }),
-    AuthModule,
+    ProductsModule,
     CommonModule,
+    AuthModule,
     MailModule,
     UserModule
   ],

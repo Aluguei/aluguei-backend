@@ -55,8 +55,8 @@ export class Product {
 export class ProductFillableFields {
   name: string
   description: string
-  active: boolean
   category: string
-  quantity: number
   price: number
+  timeUnit: number
+  timeQuantity: string
 }
