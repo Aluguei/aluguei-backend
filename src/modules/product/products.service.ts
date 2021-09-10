@@ -12,6 +12,10 @@ export class ProductsService {
     private readonly productRepository: Repository<Product>
   ) {}
 
+  async getMyProducts(owner: User) {
+    return await this.productRepository.find({ where: { owner } })
+  }
+
   async create(payload: ProductFillableFields, user: User) {
     return await this.productRepository.save({ ...payload, owner: user })
   }

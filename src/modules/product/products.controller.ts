@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common'
 
 import { CurrentUser } from '@modules/common/decorator/current-user.decorator'
+import { Product } from '@modules/product'
 import { User } from '@modules/user'
 
 import { CreateProductPayload, UpdateProductPayload } from './payloads'
@@ -21,6 +22,16 @@ import { ProductsService } from './products.service'
 @ApiTags('Products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
+
+  @Post('/my')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 201, description: 'Success' })
+  async getMyProducts(@CurrentUser() user: User): Promise<Product[]> {
+    return await this.productsService.getMyProducts(user)
+  }
 
   @Post('/')
   @ApiBearerAuth()
