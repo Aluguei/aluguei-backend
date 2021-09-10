@@ -1,12 +1,21 @@
 import { ApiBearerAuth, ApiResponse, ApiTags, ApiParam } from '@nestjs/swagger'
-import { Body, Controller, Param, Post, Put, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
+
+import {
+  Controller,
+  UseGuards,
+  Delete,
+  Param,
+  Body,
+  Post,
+  Put
+} from '@nestjs/common'
 
 import { CurrentUser } from '@modules/common/decorator/current-user.decorator'
 import { User } from '@modules/user'
 
-import { ProductsService } from './products.service'
 import { CreateProductPayload, UpdateProductPayload } from './payloads'
+import { ProductsService } from './products.service'
 
 @Controller('products')
 @ApiTags('Products')
@@ -38,5 +47,16 @@ export class ProductsController {
     @Param('productId') productId: string
   ): Promise<any> {
     return await this.productsService.update(+productId, payload)
+  }
+
+  @Delete('/:productId')
+  @ApiParam({ name: 'productId' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 201, description: 'Success' })
+  async destroy(@Param('productId') productId: string): Promise<any> {
+    return await this.productsService.destroy(+productId)
   }
 }

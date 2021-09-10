@@ -26,6 +26,16 @@ export class ProductsService {
     await this.productRepository.update(id, payload)
   }
 
+  async destroy(id: number) {
+    try {
+      await this.productRepository.findOneOrFail(id)
+    } catch {
+      throw new Error('Product not found')
+    }
+
+    await this.productRepository.delete(id)
+  }
+
   async get(id: number) {
     return await this.productRepository.findOne({ id })
   }
