@@ -8,7 +8,8 @@ import {
   Param,
   Body,
   Post,
-  Put
+  Put,
+  Get
 } from '@nestjs/common'
 
 import { CurrentUser } from '@modules/common/decorators'
@@ -23,7 +24,7 @@ import { ProductsService } from './products.service'
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post('/available')
+  @Get('/available')
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -33,7 +34,7 @@ export class ProductsController {
     return await this.productsService.getAvailableToRent(user)
   }
 
-  @Post('/my')
+  @Get('/my')
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @ApiResponse({ status: 401, description: 'Unauthorized' })

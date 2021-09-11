@@ -2,6 +2,8 @@ import { HttpException, Injectable } from '@nestjs/common'
 
 import * as chalk from 'chalk'
 
+import { BaseError } from '@modules/common/utils'
+
 @Injectable()
 export class LoggerService {
   log({
@@ -28,7 +30,7 @@ export class LoggerService {
     this.log({ message })
   }
 
-  error(exception: HttpException | string) {
+  error(exception: HttpException | string | BaseError) {
     let message = exception
 
     if (typeof exception === 'object' && 'getStatus' in exception) {

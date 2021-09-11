@@ -1,7 +1,8 @@
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import { PassportStrategy } from '@nestjs/passport'
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 
+import { UnauthorizedError } from '@modules/common/utils'
 import { UsersService } from '@modules/users'
 import { authConfig } from '@config'
 
@@ -16,14 +17,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate({ iat, exp, id }: any, done) {
     const timeDiff = exp - iat
-    if (timeDiff <= 0) {
-      throw new UnauthorizedException()
-    }
+    if (timeDiff <= 0) throw new UnauthorizedError()
 
     const user = await this.usersService.get(id)
-    if (!user) {
-      throw new UnauthorizedException()
-    }
+    if (!user) throw new UnauthorizedError()
 
     delete user.password
     done(null, user)

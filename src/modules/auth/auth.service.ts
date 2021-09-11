@@ -1,8 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
 import { LoginPayload, SendForgottenPasswordEmailPayload } from './payloads'
 
+import { ValidationError } from '@modules/common/utils'
 import { User, UsersService } from '@modules/users'
 import { Hash } from '@modules/common/services'
 import { MailService } from '@modules/mail'
@@ -27,7 +28,7 @@ export class AuthService {
   async validateUser(payload: LoginPayload): Promise<any> {
     const user = await this.userService.getByEmail(payload.email)
     if (!user || !Hash.compare(payload.password, user.password))
-      throw new UnauthorizedException('Invalid credentials!')
+      throw new ValidationError({ message: 'Incorrect email or password' })
 
     return user
   }

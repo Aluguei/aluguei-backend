@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { User, UserFillableFields } from '@modules/users/users.entity'
+import { NotFoundError } from '@modules/common/utils'
+
 import { UserUpdatePayload } from './userUpdate.payload'
 
 @Injectable()
@@ -18,7 +20,7 @@ export class UsersService {
   ) {
     const user = await this.userRepository.findOne(query)
 
-    if (!user && throwError) throw new NotAcceptableException('User not found.')
+    if (!user && throwError) throw new NotFoundError({ entity: 'User' })
 
     return user
   }
@@ -46,13 +48,8 @@ export class UsersService {
   async update(id: number, payload: UserUpdatePayload) {
     const user = await this.get(id)
 
-    if (!user) throw new NotAcceptableException('User not found')
+    if (!user) throw new NotFoundError({ entity: 'User' })
 
     return await this.userRepository.update({ id }, payload)
-  }
-
-  async createForgotPasswordToken(user: User) {
-    const { fullName, email, id } = user.toJSON()
-    return { fullName, email, id }
   }
 }

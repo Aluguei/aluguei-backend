@@ -1,12 +1,16 @@
 import { HttpException, HttpStatus } from '@nestjs/common'
 
-interface IData {
+interface IValidationError {
   message: string
   fields?: Record<string, string>[]
 }
 
 export class ValidationError extends HttpException {
-  constructor(data: IData, status: number = HttpStatus.UNPROCESSABLE_ENTITY) {
-    super(data, status)
+  public statusCode: number
+  public code: string
+
+  constructor({ message, fields }: IValidationError) {
+    super({ message, fields }, HttpStatus.UNPROCESSABLE_ENTITY)
+    this.code = 'UNPROCESSABLE_ENTITY'
   }
 }

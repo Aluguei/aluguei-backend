@@ -96,8 +96,8 @@ export class ExceptionHandlingFilter implements ExceptionFilter {
 
     return response.status(status).json({
       statusCode: status,
-      timestamp: new Date().toISOString(),
-      path: url
+      message: exception.message,
+      name: exception.name
     })
   }
 }

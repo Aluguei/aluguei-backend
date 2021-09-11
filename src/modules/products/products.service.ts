@@ -5,6 +5,8 @@ import { Product, ProductFillableFields } from './products.entity'
 import { Repository, Not } from 'typeorm'
 import { User } from '@modules/users'
 
+import { NotFoundError } from '../common/utils/errors'
+
 @Injectable()
 export class ProductsService {
   constructor(
@@ -30,7 +32,7 @@ export class ProductsService {
     try {
       await this.productsRepository.findOneOrFail(id)
     } catch {
-      throw new Error('Product not found')
+      throw new NotFoundError({ entity: 'Product' })
     }
 
     await this.productsRepository.update(id, payload)
@@ -40,7 +42,7 @@ export class ProductsService {
     try {
       await this.productsRepository.findOneOrFail(id)
     } catch {
-      throw new Error('Product not found')
+      throw new NotFoundError({ entity: 'Product' })
     }
 
     await this.productsRepository.delete(id)
