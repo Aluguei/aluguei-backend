@@ -48,6 +48,16 @@ export class ProductsController {
     return await this.productsService.getMyProducts(user)
   }
 
+  @Get('/rented')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 201, description: 'Success' })
+  async getRentedProducts(@CurrentUser() user: User): Promise<Product[]> {
+    return await this.productsService.getRentedProducts(user)
+  }
+
   @Post('/')
   @ApiBearerAuth()
   @UseGuards(AuthGuard())

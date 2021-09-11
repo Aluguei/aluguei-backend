@@ -29,6 +29,14 @@ export class ProductsService {
     return await this.productsRepository.find({ where: { owner } })
   }
 
+  async getRentedProducts(user: User) {
+    const usersProducts = await this.usersProductsService.getRentedProducts(
+      user
+    )
+
+    return usersProducts.map((up) => up.product)
+  }
+
   async create(payload: ProductFillableFields, user: User) {
     return await this.productsRepository.save({ ...payload, owner: user })
   }
