@@ -2,11 +2,12 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
   Entity,
-  Column,
-  ManyToOne
+  Column
 } from 'typeorm'
-import { User } from '..'
+
+import { User } from '@modules/users'
 
 @Entity({
   name: 'usersPasswordResets'

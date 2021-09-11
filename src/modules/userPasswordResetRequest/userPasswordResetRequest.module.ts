@@ -1,11 +1,14 @@
-import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { UserPasswordResetRequest } from './userPasswordResetRequest.entity'
-import { UserPasswordResetsService } from './userPasswordResetRequest.service'
+import { Module } from '@nestjs/common'
+
+import {
+  UserPasswordResetRequest,
+  UserPasswordResetsService
+} from '@modules/userPasswordResetRequest'
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserPasswordResetRequest])],
-  exports: [UserPasswordResetsService],
-  providers: [UserPasswordResetsService]
+  providers: [UserPasswordResetsService],
+  exports: [UserPasswordResetsService]
 })
 export class UserPasswordResetRequestModule {}

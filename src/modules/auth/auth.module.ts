@@ -1,21 +1,21 @@
+import { PassportModule } from '@nestjs/passport'
 import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
-import { PassportModule } from '@nestjs/passport'
+
+import { UserPasswordResetRequestModule } from '@modules/userPasswordResetRequest'
+import { UserModule } from '@modules/users'
+import { MailModule } from '@modules/mail'
+import { authConfig } from '@config'
 
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { JwtStrategy } from './jwt.strategy'
 
-import { authConfig } from '@config/auth.config'
-import { UserModule } from '@modules/user'
-import { UserPasswordResetRequestModule } from '@modules/userPasswordResetRequest'
-import { MailModule } from '@modules/mail'
-
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     UserPasswordResetRequestModule,
     UserModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       useFactory: async () => {
         return {

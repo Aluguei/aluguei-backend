@@ -1,13 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
-import { User, UsersService } from '@modules/user'
-import { LoginPayload } from './login.payload'
-import { Hash } from '@shared/services'
-import { SendForgottenPasswordEmailPayload } from './forgotPassword.payload'
+import { LoginPayload, SendForgottenPasswordEmailPayload } from './payloads'
 
-import { authConfig } from '@config'
+import { User, UsersService } from '@modules/users'
+import { Hash } from '@modules/common/services'
 import { MailService } from '@modules/mail'
+import { authConfig } from '@config'
 
 @Injectable()
 export class AuthService {

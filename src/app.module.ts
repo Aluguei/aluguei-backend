@@ -1,9 +1,10 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
-import { SharedModule, LoggerMiddleware } from './shared'
-import { MainModule } from './modules/main'
+
+import { CommonModule, LoggerMiddleware } from '@modules/common'
+import { MainModule } from '@modules/main'
 
 @Module({
-  imports: [MainModule, SharedModule]
+  imports: [MainModule, CommonModule]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

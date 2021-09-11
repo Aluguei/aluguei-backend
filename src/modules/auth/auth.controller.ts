@@ -1,13 +1,18 @@
-import { CurrentUser } from '@modules/common/decorator/current-user.decorator'
-import { UserPasswordResetsService } from '@modules/userPasswordResetRequest'
 import { Controller, Body, Post, UseGuards, Get, Put } from '@nestjs/common'
 import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 import { AuthGuard } from '@nestjs/passport'
 
-import { ForgotPasswordPayload } from './forgotPassword.payload'
-import { AuthService, LoginPayload, RegisterPayload } from './'
-import { ResetPasswordPayload } from './resetPassword.payload'
-import { User, UsersService } from '@modules/user'
+import { UserPasswordResetsService } from '@modules/userPasswordResetRequest'
+import { AuthService } from '@modules/auth/auth.service'
+import { CurrentUser } from '@modules/common/decorators'
+import { User, UsersService } from '@modules/users'
+
+import {
+  ForgotPasswordPayload,
+  ResetPasswordPayload,
+  RegisterPayload,
+  LoginPayload
+} from '@modules/auth/payloads'
 
 @Controller('api/auth')
 @ApiTags('Authenticaion')
@@ -19,7 +24,7 @@ export class AuthController {
   ) {}
 
   @Post('login')
-  @ApiResponse({ status: 201, description: 'Successful Login' })
+  @ApiResponse({ status: 201, description: 'Success' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async login(@Body() payload: LoginPayload): Promise<any> {
@@ -39,7 +44,7 @@ export class AuthController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Get('me')
-  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 200, description: 'Success' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getLoggedInUser(@CurrentUser() user: User): Promise<User> {
     return user

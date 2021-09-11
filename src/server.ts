@@ -1,14 +1,13 @@
-import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
-import { AppModule } from './app.module'
-
-import { appConfig } from './config'
-import { setupSwagger } from './swagger'
-
-import { ExceptionHandlingFilter } from './shared/filters'
-
-import { LoggerService } from '@shared/services'
 import { ValidationPipe } from '@nestjs/common'
+import { NestFactory } from '@nestjs/core'
+
+import { ExceptionHandlingFilter } from '@modules/common/filters'
+import { LoggerService } from '@modules/common/services'
+
+import { AppModule } from './app.module'
+import { setupSwagger } from './swagger'
+import { appConfig } from './config'
 
 export class Server {
   private app: NestExpressApplication
