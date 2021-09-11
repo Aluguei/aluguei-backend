@@ -23,6 +23,16 @@ import { ProductsService } from './products.service'
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @Post('/available')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 201, description: 'Success' })
+  async getAvailable(@CurrentUser() user: User): Promise<Product[]> {
+    return await this.productsService.getAvailable(user)
+  }
+
   @Post('/my')
   @ApiBearerAuth()
   @UseGuards(AuthGuard())

@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Injectable } from '@nestjs/common'
 
 import { Product, ProductFillableFields } from './product.entity'
-import { Repository } from 'typeorm'
+import { Repository, Not } from 'typeorm'
 import { User } from '@modules/user'
 
 @Injectable()
@@ -11,6 +11,12 @@ export class ProductsService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>
   ) {}
+
+  async getAvailable(owner: User) {
+    return await this.productRepository.find({
+      where: { owner: Not(owner.id), isLent: false }
+    })
+  }
 
   async getMyProducts(owner: User) {
     return await this.productRepository.find({ where: { owner } })
