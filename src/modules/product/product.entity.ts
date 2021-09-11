@@ -21,6 +21,9 @@ export class Product {
   @Column({ default: true })
   isActive: boolean
 
+  @Column({ default: false })
+  isLent: boolean
+
   @Column({ length: 255 })
   name: string
 
