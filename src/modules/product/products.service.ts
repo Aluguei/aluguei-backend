@@ -12,7 +12,7 @@ export class ProductsService {
     private readonly productRepository: Repository<Product>
   ) {}
 
-  async getAvailable(owner: User) {
+  async getAvailableToRent(owner: User) {
     return await this.productRepository.find({
       where: { owner: Not(owner.id), isLent: false }
     })

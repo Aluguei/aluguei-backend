@@ -29,8 +29,8 @@ export class ProductsController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 201, description: 'Success' })
-  async getAvailable(@CurrentUser() user: User): Promise<Product[]> {
-    return await this.productsService.getAvailable(user)
+  async getAvailableToRent(@CurrentUser() user: User): Promise<Product[]> {
+    return await this.productsService.getAvailableToRent(user)
   }
 
   @Post('/my')
