@@ -42,7 +42,10 @@ export class Product {
   @Column()
   timeQuantity: string
 
-  @ManyToOne(() => User, (user) => user.ownedProducts, { nullable: false })
+  @ManyToOne(() => User, (user) => user.ownedProducts, {
+    nullable: false,
+    lazy: true
+  })
   owner: User
 
   @OneToMany(() => UsersProducts, (userProducts) => userProducts.product)

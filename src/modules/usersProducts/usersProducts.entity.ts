@@ -18,3 +18,8 @@ export class UsersProducts {
   })
   user: User
 }
+
+export class UsersProductsFillable {
+  product: Product
+  user: User
+}

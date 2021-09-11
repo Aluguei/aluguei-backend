@@ -16,7 +16,11 @@ import { CurrentUser } from '@modules/common/decorators'
 import { Product } from '@modules/products'
 import { User } from '@modules/users'
 
-import { CreateProductPayload, UpdateProductPayload } from './payloads'
+import {
+  CreateProductPayload,
+  RentProductPayload,
+  UpdateProductPayload
+} from './payloads'
 import { ProductsService } from './products.service'
 
 @Controller('products')
@@ -66,9 +70,10 @@ export class ProductsController {
   @ApiResponse({ status: 201, description: 'Success' })
   async update(
     @Body() payload: UpdateProductPayload,
-    @Param('productId') productId: string
+    @Param('productId') productId: string,
+    @CurrentUser() user: User
   ): Promise<any> {
-    return await this.productsService.update(+productId, payload)
+    return await this.productsService.update(+productId, payload, user)
   }
 
   @Delete('/:productId')
@@ -78,7 +83,23 @@ export class ProductsController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 201, description: 'Success' })
-  async destroy(@Param('productId') productId: string): Promise<any> {
-    return await this.productsService.destroy(+productId)
+  async destroy(
+    @Param('productId') productId: string,
+    @CurrentUser() user: User
+  ): Promise<any> {
+    return await this.productsService.destroy(+productId, user)
+  }
+
+  @Post('/:productId/rent')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 201, description: 'Success' })
+  async rentProduct(
+    @Body() payload: RentProductPayload,
+    @CurrentUser() user: User
+  ): Promise<any> {
+    return await this.productsService.rentProduct(payload, user)
   }
 }
