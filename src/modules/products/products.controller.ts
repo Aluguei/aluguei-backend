@@ -9,7 +9,8 @@ import {
   Body,
   Post,
   Put,
-  Get
+  Get,
+  Query
 } from '@nestjs/common'
 
 import { CurrentUser } from '@modules/common/decorators'
@@ -22,6 +23,9 @@ import {
   UpdateProductPayload
 } from './payloads'
 import { ProductsService } from './products.service'
+import { Pagination } from 'nestjs-typeorm-paginate'
+import { GetAvailableToRentQueryDTO } from './dto'
+import { PaginationDTO } from '@modules/common/dto'
 
 @Controller('products')
 @ApiTags('Products')
@@ -34,8 +38,11 @@ export class ProductsController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 201, description: 'Success' })
-  async getAvailableToRent(@CurrentUser() user: User): Promise<Product[]> {
-    return await this.productsService.getAvailableToRent(user)
+  async getAvailableToRent(
+    @CurrentUser() user: User,
+    @Query() query: GetAvailableToRentQueryDTO
+  ): Promise<Pagination<Product>> {
+    return await this.productsService.getAvailableToRent(query, user)
   }
 
   @Get('/my')

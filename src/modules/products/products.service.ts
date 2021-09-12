@@ -1,15 +1,17 @@
 import { InjectRepository } from '@nestjs/typeorm'
 import { Injectable } from '@nestjs/common'
+import { Repository, Not, Like } from 'typeorm'
 
-import { Product, ProductFillableFields } from './products.entity'
-import { Repository, Not } from 'typeorm'
-import { User } from '@modules/users'
-
-import { NotFoundError } from '../common/utils/errors'
+import { paginate } from 'nestjs-typeorm-paginate'
 
 import { ValidationError } from '@modules/common/utils'
-import { RentProductPayload } from './payloads'
+import { User } from '@modules/users'
+
 import { UsersProductsService } from '../usersProducts/usersProducts.service'
+import { Product, ProductFillableFields } from './products.entity'
+import { NotFoundError } from '../common/utils/errors'
+import { GetAvailableToRentQueryDTO } from './dto'
+import { RentProductPayload } from './payloads'
 
 @Injectable()
 export class ProductsService {
@@ -19,9 +21,19 @@ export class ProductsService {
     protected readonly usersProductsService: UsersProductsService
   ) {}
 
-  async getAvailableToRent(owner: User) {
-    return await this.productsRepository.find({
-      where: { owner: Not(owner.id), isLent: false }
+  async getAvailableToRent(
+    { page = 1, perPage = 15, productName = '' }: GetAvailableToRentQueryDTO,
+    owner: User
+  ) {
+    const query = this.productsRepository.createQueryBuilder('products').where({
+      owner: Not(owner.id),
+      isLent: false,
+      ...(productName ? { name: Like(productName) } : {})
+    })
+
+    return await paginate<Product>(query, {
+      limit: perPage,
+      page: page
     })
   }
 
