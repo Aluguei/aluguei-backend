@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common'
 
 import { UsersProductsModule } from '@modules/usersProducts'
 
+import { ProductTransformer } from './products.transformer'
 import { ProductsController } from './products.controller'
 import { ProductsService } from './products.service'
 import { Product } from './products.entity'
@@ -15,7 +16,7 @@ import { Product } from './products.entity'
     UsersProductsModule
   ],
   controllers: [ProductsController],
-  providers: [ProductsService],
+  providers: [ProductsService, ProductTransformer],
   exports: [ProductsService]
 })
 export class ProductsModule {}

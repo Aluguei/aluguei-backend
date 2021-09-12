@@ -33,10 +33,15 @@ import { ProductsService } from './products.service'
 import { Pagination } from 'nestjs-typeorm-paginate'
 import { GetAvailableToRentQueryDTO } from './dto'
 
+import { ProductTransformer } from './products.transformer'
+
 @Controller('products')
 @ApiTags('Products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly productTransformer: ProductTransformer
+  ) {}
 
   @Get('/available')
   @ApiBearerAuth()
@@ -51,8 +56,10 @@ export class ProductsController {
   async getAvailableToRent(
     @CurrentUser() user: User,
     @Query() query: GetAvailableToRentQueryDTO
-  ): Promise<Pagination<Product>> {
-    return await this.productsService.getAvailableToRent(query, user)
+  ) {
+    const products = await this.productsService.getAvailableToRent(query, user)
+
+    return await this.productTransformer.paginate(products)
   }
 
   @Get('/my')
