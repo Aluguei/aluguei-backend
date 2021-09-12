@@ -1,5 +1,10 @@
-import { ApiBearerAuth, ApiResponse, ApiTags, ApiParam } from '@nestjs/swagger'
-import { AuthGuard } from '@nestjs/passport'
+import {
+  ApiBearerAuth,
+  ApiResponse,
+  ApiParam,
+  ApiTags,
+  ApiQuery
+} from '@nestjs/swagger'
 
 import {
   Controller,
@@ -13,6 +18,8 @@ import {
   Query
 } from '@nestjs/common'
 
+import { AuthGuard } from '@nestjs/passport'
+
 import { CurrentUser } from '@modules/common/decorators'
 import { Product } from '@modules/products'
 import { User } from '@modules/users'
@@ -25,7 +32,6 @@ import {
 import { ProductsService } from './products.service'
 import { Pagination } from 'nestjs-typeorm-paginate'
 import { GetAvailableToRentQueryDTO } from './dto'
-import { PaginationDTO } from '@modules/common/dto'
 
 @Controller('products')
 @ApiTags('Products')
@@ -34,6 +40,10 @@ export class ProductsController {
 
   @Get('/available')
   @ApiBearerAuth()
+  @ApiQuery({ name: 'productName', required: false })
+  @ApiQuery({ name: 'category', required: false })
+  @ApiQuery({ name: 'perPage', required: false })
+  @ApiQuery({ name: 'page', required: false })
   @UseGuards(AuthGuard())
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
