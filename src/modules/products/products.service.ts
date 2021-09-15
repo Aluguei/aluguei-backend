@@ -61,12 +61,22 @@ export class ProductsService {
     })
   }
 
-  async getRentedProducts(user: User) {
-    const usersProducts = await this.usersProductsService.getRentedProducts(
-      user
-    )
+  async getRentedProducts(
+    { page = 1, perPage = 15, productName = '' }: GetAvailableToRentQueryDTO,
+    owner: User
+  ) {
+    const query = this.productsRepository.createQueryBuilder('products').where({
+      ownerId: owner.id,
+      isLent: true,
+      ...(productName
+        ? { name: Like({ field: 'name', value: productName }) }
+        : {})
+    })
 
-    return usersProducts.map((up) => up.product)
+    return await paginate<Product>(query, {
+      limit: perPage,
+      page: page
+    })
   }
 
   async create(payload: ProductFillableFields, user: User) {

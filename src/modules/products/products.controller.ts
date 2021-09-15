@@ -74,17 +74,27 @@ export class ProductsController {
     @CurrentUser() user: User,
     @Query() query: GetAvailableToRentQueryDTO
   ) {
-    return await this.productsService.getMyProducts(query, user)
+    const products = await this.productsService.getMyProducts(query, user)
+
+    return await this.productTransformer.paginate(products)
   }
 
   @Get('/rented')
   @ApiBearerAuth()
+  @ApiQuery({ name: 'productName', required: false })
+  @ApiQuery({ name: 'perPage', required: false })
+  @ApiQuery({ name: 'page', required: false })
   @UseGuards(AuthGuard())
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 201, description: 'Success' })
-  async getRentedProducts(@CurrentUser() user: User): Promise<Product[]> {
-    return await this.productsService.getRentedProducts(user)
+  async getRentedProducts(
+    @CurrentUser() user: User,
+    @Query() query: GetAvailableToRentQueryDTO
+  ) {
+    const products = await this.productsService.getRentedProducts(query, user)
+
+    return await this.productTransformer.paginate(products)
   }
 
   @Post('/')
