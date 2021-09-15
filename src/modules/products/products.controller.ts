@@ -61,38 +61,21 @@ export class ProductsController {
     return await this.productTransformer.paginate(products)
   }
 
-  @Get('/my')
+  @Get('/owned')
   @ApiBearerAuth()
   @ApiQuery({ name: 'productName', required: false })
   @ApiQuery({ name: 'perPage', required: false })
   @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'isLent', required: false, type: 'boolean' })
   @UseGuards(AuthGuard())
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 201, description: 'Success' })
-  async getMyProducts(
+  async getOwnedProducts(
     @CurrentUser() user: User,
     @Query() query: GetAvailableToRentQueryDTO
   ) {
-    const products = await this.productsService.getMyProducts(query, user)
-
-    return await this.productTransformer.paginate(products)
-  }
-
-  @Get('/rented')
-  @ApiBearerAuth()
-  @ApiQuery({ name: 'productName', required: false })
-  @ApiQuery({ name: 'perPage', required: false })
-  @ApiQuery({ name: 'page', required: false })
-  @UseGuards(AuthGuard())
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
-  @ApiResponse({ status: 201, description: 'Success' })
-  async getRentedProducts(
-    @CurrentUser() user: User,
-    @Query() query: GetAvailableToRentQueryDTO
-  ) {
-    const products = await this.productsService.getRentedProducts(query, user)
+    const products = await this.productsService.getOwnedProducts(query, user)
 
     return await this.productTransformer.paginate(products)
   }

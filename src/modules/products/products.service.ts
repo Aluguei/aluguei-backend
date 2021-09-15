@@ -44,12 +44,18 @@ export class ProductsService {
     })
   }
 
-  async getMyProducts(
-    { page = 1, perPage = 15, productName = '' }: GetAvailableToRentQueryDTO,
+  async getOwnedProducts(
+    {
+      page = 1,
+      perPage = 15,
+      productName = '',
+      isLent = null
+    }: GetAvailableToRentQueryDTO,
     owner: User
   ) {
     const query = this.productsRepository.createQueryBuilder('products').where({
       ownerId: owner.id,
+      ...(isLent ? { isLent } : {}),
       ...(productName
         ? { name: Like({ field: 'name', value: productName }) }
         : {})
@@ -108,22 +114,25 @@ export class ProductsService {
     try {
       return await this.productsRepository.findOneOrFail(query)
     } catch (error) {
-      throw new NotFoundError({ entity: 'Product' })
+      throw new NotFoundError({
+        entity: 'Product',
+        message: 'Produto não encontrado'
+      })
     }
   }
 
   async rentProduct({ productId }: RentProductPayload, user: User) {
     const desiredProduct = await this.get({ id: productId })
 
-    if (desiredProduct.isLent) {
-      throw new ValidationError({
-        message: 'Produto já foi emprestado para outra pessoa'
-      })
-    }
-
     if (desiredProduct.owner.id === user.id) {
       throw new ValidationError({
         message: 'Você não pode alugar o próprio produto'
+      })
+    }
+
+    if (desiredProduct.isLent) {
+      throw new ValidationError({
+        message: 'Produto já foi emprestado para outra pessoa'
       })
     }
 
