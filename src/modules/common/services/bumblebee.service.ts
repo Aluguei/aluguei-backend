@@ -1,5 +1,3 @@
-import { IPaginationOptions } from 'nestjs-typeorm-paginate'
-
 interface IPaginateData {
   items: any[]
   meta: any

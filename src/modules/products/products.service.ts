@@ -27,13 +27,16 @@ export class ProductsService {
     { page = 1, perPage = 15, productName = '' }: GetAvailableToRentQueryDTO,
     owner: User
   ) {
-    const query = this.productsRepository.createQueryBuilder('products').where({
-      ownerId: Not(owner.id),
-      isLent: false,
-      ...(productName
-        ? { name: Like({ field: 'name', value: productName }) }
-        : {})
-    })
+    const query = this.productsRepository
+      .createQueryBuilder('products')
+      .where({
+        ownerId: Not(owner.id),
+        isLent: false,
+        ...(productName
+          ? { name: Like({ field: 'name', value: productName }) }
+          : {})
+      })
+      .innerJoinAndSelect('products.owner', 'owner')
 
     return await paginate<Product>(query, {
       limit: perPage,
@@ -95,9 +98,7 @@ export class ProductsService {
       })
     }
 
-    const productOwner = await desiredProduct.owner
-
-    if (productOwner.id === user.id) {
+    if (desiredProduct.owner.id === user.id) {
       throw new ValidationError({
         message: 'Você não pode alugar o próprio produto'
       })

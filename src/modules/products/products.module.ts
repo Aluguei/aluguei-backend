@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 
 import { UsersProductsModule } from '@modules/usersProducts'
+import { UserModule } from '@modules/users'
 
 import { ProductTransformer } from './products.transformer'
 import { ProductsController } from './products.controller'
@@ -13,10 +14,11 @@ import { Product } from './products.entity'
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     TypeOrmModule.forFeature([Product]),
-    UsersProductsModule
+    UsersProductsModule,
+    UserModule
   ],
   controllers: [ProductsController],
   providers: [ProductsService, ProductTransformer],
-  exports: [ProductsService]
+  exports: [ProductsService, ProductTransformer]
 })
 export class ProductsModule {}

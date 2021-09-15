@@ -44,7 +44,7 @@ export class Product {
 
   @ManyToOne(() => User, (user) => user.ownedProducts, {
     nullable: false,
-    lazy: true
+    eager: true
   })
   owner: User
 
