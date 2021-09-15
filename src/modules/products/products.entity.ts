@@ -48,6 +48,9 @@ export class Product {
   })
   owner: User
 
+  @Column()
+  ownerId: number
+
   @OneToMany(() => UsersProducts, (userProducts) => userProducts.product)
   loans: UsersProducts[]
 

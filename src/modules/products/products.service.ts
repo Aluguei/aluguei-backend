@@ -54,7 +54,10 @@ export class ProductsService {
   }
 
   async create(payload: ProductFillableFields, user: User) {
-    return await this.productsRepository.save({ ...payload, owner: user })
+    return await this.productsRepository.save({
+      ...payload,
+      ownerId: user.id
+    })
   }
 
   async update(id: number, payload: ProductFillableFields, user: User) {
