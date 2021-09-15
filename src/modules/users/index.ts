@@ -1,5 +1,6 @@
 export * from './password.transformer'
 export * from './userUpdate.payload'
+export * from './users.transformer'
 export * from './usersGender.enum'
 export * from './users.service'
 export * from './users.entity'
