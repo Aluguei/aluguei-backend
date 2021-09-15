@@ -28,7 +28,7 @@ export class ProductsService {
     owner: User
   ) {
     const query = this.productsRepository.createQueryBuilder('products').where({
-      owner: Not(owner.id),
+      ownerId: Not(owner.id),
       isLent: false,
       ...(productName
         ? { name: Like({ field: 'name', value: productName }) }
@@ -42,7 +42,7 @@ export class ProductsService {
   }
 
   async getMyProducts(owner: User) {
-    return await this.productsRepository.find({ where: { owner } })
+    return await this.productsRepository.find({ where: { ownerId: owner.id } })
   }
 
   async getRentedProducts(user: User) {
