@@ -1,7 +1,6 @@
 import { PaginationDTO } from '@modules/common/dto'
 
-export class GetAvailableToRentQueryDTO extends PaginationDTO {
+export class ProductQuery extends PaginationDTO {
   productName: string
-  category: string
   isLent?: boolean
 }

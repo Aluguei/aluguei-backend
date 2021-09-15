@@ -1,1 +1,1 @@
-export * from './GetAvailableToRentQuery.dto'
+export * from './productQuery.dto'

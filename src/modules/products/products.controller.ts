@@ -11,27 +11,26 @@ import {
   UseGuards,
   Delete,
   Param,
+  Query,
   Body,
   Post,
   Put,
-  Get,
-  Query
+  Get
 } from '@nestjs/common'
 
 import { AuthGuard } from '@nestjs/passport'
 
 import { CurrentUser } from '@modules/common/decorators'
-import { Product } from '@modules/products'
 import { User } from '@modules/users'
 
 import {
   CreateProductPayload,
-  RentProductPayload,
-  UpdateProductPayload
+  UpdateProductPayload,
+  RentProductPayload
 } from './payloads'
+
 import { ProductsService } from './products.service'
-import { Pagination } from 'nestjs-typeorm-paginate'
-import { GetAvailableToRentQueryDTO } from './dto'
+import { ProductQuery } from './dto'
 
 import { ProductTransformer } from './products.transformer'
 
@@ -54,7 +53,7 @@ export class ProductsController {
   @ApiResponse({ status: 201, description: 'Success' })
   async getAvailableToRent(
     @CurrentUser() user: User,
-    @Query() query: GetAvailableToRentQueryDTO
+    @Query() query: ProductQuery
   ) {
     const products = await this.productsService.getAvailableToRent(query, user)
 
@@ -73,7 +72,7 @@ export class ProductsController {
   @ApiResponse({ status: 201, description: 'Success' })
   async getOwnedProducts(
     @CurrentUser() user: User,
-    @Query() query: GetAvailableToRentQueryDTO
+    @Query() query: ProductQuery
   ) {
     const products = await this.productsService.getOwnedProducts(query, user)
 
@@ -89,7 +88,7 @@ export class ProductsController {
   async create(
     @Body() payload: CreateProductPayload,
     @CurrentUser() user: User
-  ): Promise<any> {
+  ) {
     return await this.productsService.create(payload, user)
   }
 
@@ -104,7 +103,7 @@ export class ProductsController {
     @Body() payload: UpdateProductPayload,
     @Param('productId') productId: string,
     @CurrentUser() user: User
-  ): Promise<any> {
+  ) {
     return await this.productsService.update(+productId, payload, user)
   }
 
@@ -118,7 +117,7 @@ export class ProductsController {
   async destroy(
     @Param('productId') productId: string,
     @CurrentUser() user: User
-  ): Promise<any> {
+  ) {
     return await this.productsService.destroy(+productId, user)
   }
 
@@ -131,7 +130,7 @@ export class ProductsController {
   async rentProduct(
     @Body() payload: RentProductPayload,
     @CurrentUser() user: User
-  ): Promise<any> {
+  ) {
     return await this.productsService.rentProduct(payload, user)
   }
 }

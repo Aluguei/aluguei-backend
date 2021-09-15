@@ -10,8 +10,8 @@ import { User } from '@modules/users'
 import { UsersProductsService } from '../usersProducts/usersProducts.service'
 import { Product, ProductFillableFields } from './products.entity'
 import { NotFoundError } from '../common/utils/errors'
-import { GetAvailableToRentQueryDTO } from './dto'
 import { RentProductPayload } from './payloads'
+import { ProductQuery } from './dto'
 
 import { Like } from '@modules/common/utils/typeorm/functions'
 
@@ -24,7 +24,7 @@ export class ProductsService {
   ) {}
 
   async getAvailableToRent(
-    { page = 1, perPage = 15, productName = '' }: GetAvailableToRentQueryDTO,
+    { page = 1, perPage = 15, productName = '' }: ProductQuery,
     owner: User
   ) {
     const query = this.productsRepository
@@ -45,12 +45,7 @@ export class ProductsService {
   }
 
   async getOwnedProducts(
-    {
-      page = 1,
-      perPage = 15,
-      productName = '',
-      isLent = null
-    }: GetAvailableToRentQueryDTO,
+    { page = 1, perPage = 15, productName = '', isLent = null }: ProductQuery,
     owner: User
   ) {
     const query = this.productsRepository.createQueryBuilder('products').where({
@@ -68,7 +63,7 @@ export class ProductsService {
   }
 
   async getRentedProducts(
-    { page = 1, perPage = 15, productName = '' }: GetAvailableToRentQueryDTO,
+    { page = 1, perPage = 15, productName = '' }: ProductQuery,
     owner: User
   ) {
     const query = this.productsRepository.createQueryBuilder('products').where({
