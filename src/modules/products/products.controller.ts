@@ -46,7 +46,6 @@ export class ProductsController {
   @Get('/available')
   @ApiBearerAuth()
   @ApiQuery({ name: 'productName', required: false })
-  @ApiQuery({ name: 'category', required: false })
   @ApiQuery({ name: 'perPage', required: false })
   @ApiQuery({ name: 'page', required: false })
   @UseGuards(AuthGuard())
@@ -64,12 +63,18 @@ export class ProductsController {
 
   @Get('/my')
   @ApiBearerAuth()
+  @ApiQuery({ name: 'productName', required: false })
+  @ApiQuery({ name: 'perPage', required: false })
+  @ApiQuery({ name: 'page', required: false })
   @UseGuards(AuthGuard())
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 201, description: 'Success' })
-  async getMyProducts(@CurrentUser() user: User): Promise<Product[]> {
-    return await this.productsService.getMyProducts(user)
+  async getMyProducts(
+    @CurrentUser() user: User,
+    @Query() query: GetAvailableToRentQueryDTO
+  ) {
+    return await this.productsService.getMyProducts(query, user)
   }
 
   @Get('/rented')

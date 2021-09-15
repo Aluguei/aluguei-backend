@@ -44,8 +44,21 @@ export class ProductsService {
     })
   }
 
-  async getMyProducts(owner: User) {
-    return await this.productsRepository.find({ where: { ownerId: owner.id } })
+  async getMyProducts(
+    { page = 1, perPage = 15, productName = '' }: GetAvailableToRentQueryDTO,
+    owner: User
+  ) {
+    const query = this.productsRepository.createQueryBuilder('products').where({
+      ownerId: owner.id,
+      ...(productName
+        ? { name: Like({ field: 'name', value: productName }) }
+        : {})
+    })
+
+    return await paginate<Product>(query, {
+      limit: perPage,
+      page: page
+    })
   }
 
   async getRentedProducts(user: User) {
