@@ -1,22 +1,22 @@
 const { env } = process
 
 export interface ISwaggerConfig {
-  root: string
-  name: string
   description: string
   version: string
+  root: string
+  name: string
 }
 
 const {
+  SWAGGER_API_CURRENT_VERSION = '1.0',
+  SWAGGER_API_NAME = 'Aluguei API',
   SWAGGER_API_ROOT = 'api/docs',
-  SWAGGER_API_NAME = 'Simple API',
-  SWAGGER_API_DESCRIPTION = 'Simple API Description',
-  SWAGGER_API_CURRENT_VERSION = '1.0'
+  SWAGGER_API_DESCRIPTION = 'Passar no header da requisição device=mobile para persistir a autenticação do usuário'
 } = env
 
 export const swaggerConfig: ISwaggerConfig = {
-  root: SWAGGER_API_ROOT,
-  name: SWAGGER_API_NAME,
   description: SWAGGER_API_DESCRIPTION,
-  version: SWAGGER_API_CURRENT_VERSION
+  version: SWAGGER_API_CURRENT_VERSION,
+  root: SWAGGER_API_ROOT,
+  name: SWAGGER_API_NAME
 }
