@@ -27,7 +27,7 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Success' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async login(@Body() payload: LoginPayload): Promise<any> {
+  async login(@Body() payload: LoginPayload) {
     const user = await this.authService.validateUser(payload)
     return await this.authService.createToken(user)
   }
@@ -36,7 +36,7 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Success' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async register(@Body() payload: RegisterPayload): Promise<any> {
+  async register(@Body() payload: RegisterPayload) {
     const user = await this.userService.create(payload)
     return await this.authService.createToken(user)
   }
@@ -74,7 +74,7 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Success' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async resetPassword(@Body() payload: ResetPasswordPayload): Promise<any> {
+  async resetPassword(@Body() payload: ResetPasswordPayload) {
     const { password, token } = payload
 
     const userResetToken = await this.userPasswordResetsService.findOneByQuery(

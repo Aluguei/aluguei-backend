@@ -34,7 +34,7 @@ import { ProductQuery } from './dto'
 
 import { ProductTransformer } from './products.transformer'
 
-@Controller('products')
+@Controller('/api/products')
 @ApiTags('Products')
 export class ProductsController {
   constructor(

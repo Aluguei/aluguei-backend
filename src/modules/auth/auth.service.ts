@@ -25,7 +25,7 @@ export class AuthService {
     }
   }
 
-  async validateUser(payload: LoginPayload): Promise<any> {
+  async validateUser(payload: LoginPayload) {
     const user = await this.userService.getByEmail(payload.email)
     if (!user || !Hash.compare(payload.password, user.password))
       throw new ValidationError({ message: 'Incorrect email or password' })
