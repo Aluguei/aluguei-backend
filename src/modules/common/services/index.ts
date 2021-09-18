@@ -1,4 +1,5 @@
 export * from './bumblebee.service'
 export * from './bumblebee.service'
 export * from './logger.service'
+export * from './filter.service'
 export * from './hash.service'
