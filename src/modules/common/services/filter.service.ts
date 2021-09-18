@@ -13,7 +13,7 @@ export class FilterService {
   }
 
   public getFilters(query: any): [Record<string, unknown>, IPaginationDTO] {
-    const pagination = {}
+    const pagination = { page: 1, perPage: 15 }
     const filter = {}
 
     Object.keys(query).map((field) => {
