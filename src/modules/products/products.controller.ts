@@ -29,17 +29,18 @@ import {
   RentProductPayload
 } from './payloads'
 
+import { ProductsTransformer } from './products.transformer'
 import { ProductsService } from './products.service'
+import { ProductsFilter } from './products.filter'
 import { ProductQuery } from './dto'
-
-import { ProductTransformer } from './products.transformer'
 
 @Controller('/api/products')
 @ApiTags('Products')
 export class ProductsController {
   constructor(
     private readonly productsService: ProductsService,
-    private readonly productTransformer: ProductTransformer
+    private readonly productTransformer: ProductsTransformer,
+    private readonly productsFilter: ProductsFilter
   ) {}
 
   @Get('/available')
@@ -55,7 +56,12 @@ export class ProductsController {
     @CurrentUser() user: User,
     @Query() query: ProductQuery
   ) {
-    const products = await this.productsService.getAvailableToRent(query, user)
+    const [filter, pagination] = this.productsFilter.getFilters(query)
+
+    const products = await this.productsService.getAvailableToRent(
+      { filter, pagination },
+      user
+    )
 
     return await this.productTransformer.paginate(products)
   }
@@ -74,7 +80,12 @@ export class ProductsController {
     @CurrentUser() user: User,
     @Query() query: ProductQuery
   ) {
-    const products = await this.productsService.getOwnedProducts(query, user)
+    const [filter, pagination] = this.productsFilter.getFilters(query)
+
+    const products = await this.productsService.getOwnedProducts(
+      { filter, pagination },
+      user
+    )
 
     return await this.productTransformer.paginate(products)
   }

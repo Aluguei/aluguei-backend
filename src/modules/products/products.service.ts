@@ -11,9 +11,7 @@ import { UsersProductsService } from '../usersProducts/usersProducts.service'
 import { Product, ProductFillableFields } from './products.entity'
 import { NotFoundError } from '../common/utils/errors'
 import { RentProductPayload } from './payloads'
-import { ProductQuery } from './dto'
-
-import { Like } from '@modules/common/utils/typeorm/functions'
+import { EntityFilterDTO } from '../common/dto'
 
 @Injectable()
 export class ProductsService {
@@ -24,59 +22,33 @@ export class ProductsService {
   ) {}
 
   async getAvailableToRent(
-    { page = 1, perPage = 15, productName = '' }: ProductQuery,
+    { filter, pagination }: EntityFilterDTO,
     owner: User
   ) {
     const query = this.productsRepository
       .createQueryBuilder('products')
       .where({
+        ...filter,
         ownerId: Not(owner.id),
-        isLent: false,
-        ...(productName
-          ? { name: Like({ field: 'name', value: productName }) }
-          : {})
+        isLent: false
       })
       .innerJoinAndSelect('products.owner', 'owner')
 
     return await paginate<Product>(query, {
-      limit: perPage,
-      page: page
+      limit: pagination.perPage,
+      page: pagination.page
     })
   }
 
-  async getOwnedProducts(
-    { page = 1, perPage = 15, productName = '', isLent = null }: ProductQuery,
-    owner: User
-  ) {
+  async getOwnedProducts({ filter, pagination }: EntityFilterDTO, owner: User) {
     const query = this.productsRepository.createQueryBuilder('products').where({
       ownerId: owner.id,
-      ...(isLent ? { isLent } : {}),
-      ...(productName
-        ? { name: Like({ field: 'name', value: productName }) }
-        : {})
+      ...filter
     })
 
     return await paginate<Product>(query, {
-      limit: perPage,
-      page: page
-    })
-  }
-
-  async getRentedProducts(
-    { page = 1, perPage = 15, productName = '' }: ProductQuery,
-    owner: User
-  ) {
-    const query = this.productsRepository.createQueryBuilder('products').where({
-      ownerId: owner.id,
-      isLent: true,
-      ...(productName
-        ? { name: Like({ field: 'name', value: productName }) }
-        : {})
-    })
-
-    return await paginate<Product>(query, {
-      limit: perPage,
-      page: page
+      limit: pagination.perPage,
+      page: pagination.page
     })
   }
 

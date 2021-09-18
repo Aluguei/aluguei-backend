@@ -8,7 +8,7 @@ import { Injectable } from '@nestjs/common'
 const userTransformer = new UserTransformer()
 
 @Injectable()
-export class ProductTransformer extends Bumblebee {
+export class ProductsTransformer extends Bumblebee {
   constructor() {
     super()
   }

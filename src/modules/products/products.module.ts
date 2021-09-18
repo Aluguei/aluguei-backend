@@ -5,9 +5,10 @@ import { Module } from '@nestjs/common'
 import { UsersProductsModule } from '@modules/usersProducts'
 import { UserModule } from '@modules/users'
 
-import { ProductTransformer } from './products.transformer'
+import { ProductsTransformer } from './products.transformer'
 import { ProductsController } from './products.controller'
 import { ProductsService } from './products.service'
+import { ProductsFilter } from './products.filter'
 import { Product } from './products.entity'
 
 @Module({
@@ -18,7 +19,7 @@ import { Product } from './products.entity'
     UserModule
   ],
   controllers: [ProductsController],
-  providers: [ProductsService, ProductTransformer],
-  exports: [ProductsService, ProductTransformer]
+  providers: [ProductsService, ProductsTransformer, ProductsFilter],
+  exports: [ProductsService, ProductsTransformer]
 })
 export class ProductsModule {}
