@@ -9,7 +9,9 @@ export abstract class Bumblebee {
   }
 
   public async item(item: any, transformationMethod: any = this.transform) {
-    return item && Object.keys(item) ? await transformationMethod(item) : {}
+    return item && Object.keys(item).length > 0
+      ? await transformationMethod(item)
+      : undefined
   }
 
   public async collection(
