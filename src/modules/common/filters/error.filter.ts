@@ -26,6 +26,8 @@ export class ExceptionHandlingFilter implements ExceptionFilter {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<Response>()
 
+    const { message, name, stack } = exception
+
     const status = exception.getStatus ? exception.getStatus() : 500
 
     const {
@@ -46,11 +48,11 @@ export class ExceptionHandlingFilter implements ExceptionFilter {
 
     try {
       await this.errorLogService.create({
-        type: 'ERROR',
         name: 'API_ERROR',
+        type: 'ERROR',
+        message,
         status,
-        message: exception.message,
-        stack: exception.stack,
+        stack,
         context: {
           request: {
             originalUrl,
@@ -72,32 +74,20 @@ export class ExceptionHandlingFilter implements ExceptionFilter {
     }
 
     if (exception instanceof BadRequestException) {
-      const res = exception.getResponse() as { message: string[] }
-      const fields = res.message.map((message) => {
-        const splittedMessage = message.split(' ')
-        const field = splittedMessage.shift()
-
-        return {
-          [field]: splittedMessage.join(' ')
-        }
-      })
-
-      const statusCode = exception.getStatus()
+      const fields = exception.getResponse()
 
       return response
-        .status(400)
-        .json({ fields, statusCode, message: exception.message })
+        .status(status)
+        .json({ fields, statusCode: status, message })
     }
 
-    if (exception instanceof NotAcceptableException) {
-      const { message, name, stack } = exception
+    if (exception instanceof NotAcceptableException)
       return response.status(status).json({ message, name, stack, status })
-    }
 
     return response.status(status).json({
       statusCode: status,
-      message: exception.message,
-      name: exception.name
+      message,
+      name
     })
   }
 }
