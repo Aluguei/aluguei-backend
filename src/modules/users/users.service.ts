@@ -34,11 +34,13 @@ export class UsersService {
   }
 
   async create(payload: UserFillableFields) {
-    const user = await this.getByEmail(payload.email)
+    const { CPF, email } = payload
+
+    const user = await this.userRepository.findOne({ CPF, email })
 
     if (user) {
       throw new NotAcceptableException(
-        'User with provided email already created.'
+        'Usuário com email ou CPF já cadastrado na base de dados'
       )
     }
 
