@@ -5,6 +5,6 @@ export class RentProductPayload {
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'productId é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   productId: number
 }

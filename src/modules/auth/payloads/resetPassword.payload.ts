@@ -2,23 +2,27 @@ import { IsNotEmpty, MinLength, IsUUID } from 'class-validator'
 import { SameAs } from '@modules/common/validators'
 import { ApiProperty } from '@nestjs/swagger'
 
+const passwordMinLength = 6
+
 export class ResetPasswordPayload {
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'token é obrigatório' })
-  @IsUUID(4, { message: 'token precisa ser um uuid' })
+  @IsNotEmpty({ message: 'É obrigatório' })
+  @IsUUID(4, { message: 'Precisa ser um uuid' })
   token: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'password é obrigatório' })
-  @MinLength(5)
+  @IsNotEmpty({ message: 'É obrigatório' })
+  @MinLength(passwordMinLength, {
+    message: `Precisa ter no mínimo ${passwordMinLength} caractéres`
+  })
   password: string
 
   @ApiProperty({ required: true })
-  @SameAs('password')
-  @IsNotEmpty({ message: 'passwordConfirmation é obrigatório' })
+  @SameAs('password', { message: 'Precisa ser igual à senha' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   passwordConfirmation: string
 }

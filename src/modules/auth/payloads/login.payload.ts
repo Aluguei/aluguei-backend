@@ -5,12 +5,14 @@ export class LoginPayload {
   @ApiProperty({
     required: true
   })
-  @IsEmail()
+  @IsEmail({}, { message: 'Precisa ser um email válido' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   email: string
+
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'É obrigatório' })
   @MinLength(5)
   password: string
 }

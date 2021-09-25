@@ -8,45 +8,44 @@ export class RegisterPayload {
   @ApiProperty({
     required: true
   })
-  // @Unique([User])
-  @IsEmail({}, { message: 'email precisar ser um email válido' })
-  @IsNotEmpty({ message: 'email é obrigatório' })
+  @IsEmail({}, { message: 'Precisa ser um email válido' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   email: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'firstName é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   firstName: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'lastName é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   lastName: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'password é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   @MinLength(5)
   password: string
 
   @ApiProperty({ required: true })
-  @SameAs('password')
-  @IsNotEmpty({ message: 'passwordConfirmation é obrigatório' })
+  @SameAs('password', { message: 'Precisa ser igual à senha' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   passwordConfirmation: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'RG é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   RG: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'CPF é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   @CPF()
   CPF: string
 
@@ -55,7 +54,7 @@ export class RegisterPayload {
     type: 'enum',
     enum: UserGender
   })
-  @IsNotEmpty({ message: 'gender é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   @IsEnum(UserGender, {
     message: `gender precisa ser uma das opções:  ${UserGenderEnum.availableHuman.join(
       ', '
@@ -66,7 +65,7 @@ export class RegisterPayload {
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'phoneOne é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   phoneOne: string
 
   @ApiProperty()
@@ -75,38 +74,38 @@ export class RegisterPayload {
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'CEP é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   @CEP()
   CEP: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'state é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   state: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'city é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   city: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'address é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   address: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'neighborhood é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   neighborhood: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'number é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   number: string
 
   @ApiProperty()

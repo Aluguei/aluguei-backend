@@ -7,7 +7,7 @@ export class ForgotPasswordPayload {
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'CPF é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   @CPF()
   CPF: string
 }

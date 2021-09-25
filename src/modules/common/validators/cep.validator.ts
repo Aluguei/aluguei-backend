@@ -14,7 +14,7 @@ export class CEPValidator implements ValidatorConstraintInterface {
   }
 
   defaultMessage() {
-    return `CEP precisa ser um CEP válido`
+    return `Precisa ser um CEP válido`
   }
 }
 

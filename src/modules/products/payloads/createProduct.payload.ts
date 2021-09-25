@@ -1,43 +1,45 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
+const messageMinLenth = 255
+
 export class CreateProductPayload {
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'name é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   name: string
 
   @ApiProperty({
     required: true
   })
-  @MaxLength(255, {
-    message: 'description precisa ter no máximo 255 caracteres'
+  @MaxLength(messageMinLenth, {
+    message: `Precisa ter no máximo ${messageMinLenth} caracteres`
   })
-  @IsNotEmpty({ message: 'description é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   description: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'category é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   category: string
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'price é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   price: number
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'timeUnit é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   timeUnit: number
 
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'timeQuantity é obrigatório' })
+  @IsNotEmpty({ message: 'É obrigatório' })
   timeQuantity: string
 }

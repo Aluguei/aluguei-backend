@@ -14,7 +14,7 @@ export class CPFValidator implements ValidatorConstraintInterface {
   }
 
   defaultMessage() {
-    return `CPF precisa ser um CPF válido`
+    return `Precisa ser um CPF válido`
   }
 }
 
