@@ -2,20 +2,19 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
   Entity,
-  Column,
-  OneToMany
+  Column
 } from 'typeorm'
-
-import { PasswordTransformer } from './password.transformer'
-
-import { UserGenderEnum } from './usersGender.enum'
-
-const { availableSys } = UserGenderEnum
 
 import { UserPasswordResetRequest } from '@modules/userPasswordResetRequest'
 import { UsersProducts } from '@modules/usersProducts'
 import { Product } from '@modules/products'
+
+import { PasswordTransformer } from './password.transformer'
+import { UserGenderEnum } from './usersGender.enum'
+
+import { UsersTokens } from '../usersTokens/usersTokens.entity'
 
 @Entity({
   name: 'users'
@@ -48,7 +47,7 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: availableSys
+    enum: UserGenderEnum.availableSys
   })
   gender: string
 
@@ -84,6 +83,9 @@ export class User {
     (userPasswordReset) => userPasswordReset.user
   )
   passwordResetRequests: UserPasswordResetRequest[]
+
+  @OneToMany(() => UsersTokens, (userPasswordReset) => userPasswordReset.user)
+  tokens: UsersTokens[]
 
   @OneToMany(() => Product, (product) => product.owner)
   ownedProducts: Product[]

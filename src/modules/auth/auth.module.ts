@@ -10,9 +10,13 @@ import { authConfig } from '@config'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { JwtStrategy } from './jwt.strategy'
+import { TypeOrmModule } from '@nestjs/typeorm'
+
+import { UsersTokens } from '@modules/usersTokens'
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([UsersTokens]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     UserPasswordResetRequestModule,
     UserModule,

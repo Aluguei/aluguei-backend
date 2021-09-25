@@ -7,29 +7,51 @@ import { UsersService } from '@modules/users'
 import { authConfig } from '@config'
 
 import { Request } from 'express'
+import { InjectRepository } from '@nestjs/typeorm'
+import { UsersTokens } from '../usersTokens'
+import { Repository } from 'typeorm'
+
+import * as dayjs from 'dayjs'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly usersService: UsersService) {
+  constructor(
+    @InjectRepository(UsersTokens)
+    private readonly usersTokensRepository: Repository<UsersTokens>,
+
+    private readonly usersService: UsersService
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: authConfig.jwt.secret,
-      passReqToCallback: true
+      passReqToCallback: true,
+      ignoreExpiration: true
     })
   }
 
   async validate(request: Request, { iat, exp, id }: any, done) {
     const { headers } = request
 
+    const { device = 'web', authorization } = headers
+
+    const [, accessToken] = authorization.split(' ')
+
     const user = await this.usersService.get(id)
+
     if (!user) throw new UnauthorizedError()
 
-    const { device = 'web' } = headers
+    const token = await this.usersTokensRepository.findOne({
+      where: { userId: user.id, accessToken }
+    })
 
-    if (device !== 'mobile') {
-      const timeDiff = exp - iat
-      if (timeDiff <= 0) throw new UnauthorizedError()
-    }
+    if (!token) throw new UnauthorizedError()
+
+    const isTokenValid = dayjs(token.createdAt)
+      .subtract(3, 'hours')
+      .add(token.expiresIn, 'seconds')
+      .isBefore(new Date())
+
+    if (device !== 'mobile' && isTokenValid) throw new UnauthorizedError()
 
     delete user.password
 
