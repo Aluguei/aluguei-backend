@@ -1,4 +1,4 @@
-import { IAppError } from '@modules/common/utils/errors'
+import { IAppError } from '@common/utils/errors'
 
 export const notFoundError = (entity = 'Entity'): IAppError => {
   return {
