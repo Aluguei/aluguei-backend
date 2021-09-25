@@ -3,9 +3,11 @@ import { Module } from '@nestjs/common'
 
 import { UsersTokens } from './usersTokens.entity'
 
+import { UsersTokensService } from './usersTokens.service'
+
 @Module({
   imports: [TypeOrmModule.forFeature([UsersTokens])],
-  providers: [],
-  exports: []
+  providers: [UsersTokensService],
+  exports: [UsersTokensService]
 })
 export class UsersTokensModule {}

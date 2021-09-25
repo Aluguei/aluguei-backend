@@ -10,13 +10,11 @@ import { authConfig } from '@config'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { JwtStrategy } from './jwt.strategy'
-import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { UsersTokens } from '@modules/usersTokens'
+import { UsersTokensModule } from '@modules/usersTokens'
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UsersTokens]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     UserPasswordResetRequestModule,
     UserModule,
@@ -30,7 +28,8 @@ import { UsersTokens } from '@modules/usersTokens'
         }
       }
     }),
-    MailModule
+    MailModule,
+    UsersTokensModule
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

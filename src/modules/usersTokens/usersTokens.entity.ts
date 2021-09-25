@@ -38,5 +38,5 @@ export class UsersTokensFillable {
   expiresIn: number
   accessToken: string
   userId: number
-  user: User
+  user?: User
 }

@@ -7,18 +7,14 @@ import { UsersService } from '@modules/users'
 import { authConfig } from '@config'
 
 import { Request } from 'express'
-import { InjectRepository } from '@nestjs/typeorm'
-import { UsersTokens } from '../usersTokens'
-import { Repository } from 'typeorm'
+import { UsersTokensService } from '@modules/usersTokens'
 
 import * as dayjs from 'dayjs'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @InjectRepository(UsersTokens)
-    private readonly usersTokensRepository: Repository<UsersTokens>,
-
+    private readonly usersTokensService: UsersTokensService,
     private readonly usersService: UsersService
   ) {
     super({
@@ -29,7 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     })
   }
 
-  async validate(request: Request, { iat, exp, id }: any, done) {
+  async validate(request: Request, { id }: any, done) {
     const { headers } = request
 
     const { device = 'web', authorization } = headers
@@ -40,8 +36,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     if (!user) throw new UnauthorizedError()
 
-    const token = await this.usersTokensRepository.findOne({
-      where: { userId: user.id, accessToken }
+    const token = await this.usersTokensService.findOneByQuery({
+      userId: user.id,
+      accessToken
     })
 
     if (!token) throw new UnauthorizedError()
