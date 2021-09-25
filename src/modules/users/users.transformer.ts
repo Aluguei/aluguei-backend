@@ -1,4 +1,4 @@
-import { Bumblebee } from '@modules/common/services'
+import { Bumblebee } from '@common/services'
 import { Injectable } from '@nestjs/common'
 
 import { User } from './users.entity'

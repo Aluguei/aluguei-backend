@@ -1,7 +1,7 @@
 import { IsEmail, IsNotEmpty, MinLength, IsEnum } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
-import { CPF, CEP, SameAs } from '@modules/common/validators'
+import { CPF, CEP, SameAs } from '@common/validators'
 import { UserGender, UserGenderEnum } from '@modules/users'
 
 export class RegisterPayload {

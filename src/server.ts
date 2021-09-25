@@ -2,8 +2,8 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 
-import { ExceptionHandlingFilter } from '@modules/common/filters'
-import { LoggerService } from '@modules/common/services'
+import { ExceptionHandlingFilter } from '@common/filters'
+import { LoggerService } from '@common/services'
 
 import { AppModule } from './app.module'
 import { setupSwagger } from './swagger'

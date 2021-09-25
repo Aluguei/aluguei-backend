@@ -1,6 +1,6 @@
 import { PassportModule } from '@nestjs/passport'
-import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
+import { Module } from '@nestjs/common'
 
 import { UserPasswordResetRequestModule } from '@modules/userPasswordResetRequest'
 import { UserModule } from '@modules/users'

@@ -2,12 +2,13 @@ import { ExtractJwt, Strategy } from 'passport-jwt'
 import { PassportStrategy } from '@nestjs/passport'
 import { Injectable } from '@nestjs/common'
 
-import { UnauthorizedError } from '@modules/common/utils'
+import { UsersTokensService } from '@modules/usersTokens'
+import { UnauthorizedError } from '@common/utils'
 import { UsersService } from '@modules/users'
+import { DeviceEnum } from '@common/enums'
 import { authConfig } from '@config'
 
 import { Request } from 'express'
-import { UsersTokensService } from '@modules/usersTokens'
 
 import * as dayjs from 'dayjs'
 
@@ -28,7 +29,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(request: Request, { id }: any, done) {
     const { headers } = request
 
-    const { device = 'web', authorization } = headers
+    const { device = DeviceEnum.web, authorization } = headers
 
     const [, accessToken] = authorization.split(' ')
 
@@ -48,7 +49,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       .add(token.expiresIn, 'seconds')
       .isBefore(new Date())
 
-    if (device !== 'mobile' && isTokenValid) throw new UnauthorizedError()
+    if (device !== DeviceEnum.mobile && isTokenValid)
+      throw new UnauthorizedError()
 
     delete user.password
 

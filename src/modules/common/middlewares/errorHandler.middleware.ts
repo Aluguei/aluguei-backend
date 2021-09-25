@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
 
-import { LoggerService } from '@modules/common/services'
+import { LoggerService } from '@common/services'
 
 @Injectable()
 export class ErrorHandler implements NestMiddleware {

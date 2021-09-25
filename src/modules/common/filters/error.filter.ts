@@ -9,8 +9,8 @@ import {
   Catch
 } from '@nestjs/common'
 
-import { LoggerService } from '@modules/common/services'
 import { ErrorLogService } from '@modules/errorLogs'
+import { LoggerService } from '@common/services'
 
 @Catch(HttpException)
 export class ExceptionHandlingFilter implements ExceptionFilter {

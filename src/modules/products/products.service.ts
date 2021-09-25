@@ -4,7 +4,7 @@ import { Repository, Not } from 'typeorm'
 
 import { paginate } from 'nestjs-typeorm-paginate'
 
-import { ValidationError } from '@modules/common/utils'
+import { ValidationError } from '@common/utils'
 import { User } from '@modules/users'
 
 import { UsersProductsService } from '../usersProducts/usersProducts.service'

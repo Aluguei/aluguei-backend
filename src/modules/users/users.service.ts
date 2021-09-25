@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { User, UserFillableFields } from '@modules/users/users.entity'
-import { NotFoundError } from '@modules/common/utils'
+import { NotFoundError } from '@common/utils'
 
 import { UserUpdatePayload } from './userUpdate.payload'
 

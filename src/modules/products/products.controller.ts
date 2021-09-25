@@ -20,7 +20,7 @@ import {
 
 import { AuthGuard } from '@nestjs/passport'
 
-import { CurrentUser } from '@modules/common/decorators'
+import { CurrentUser } from '@common/decorators'
 import { User } from '@modules/users'
 
 import {

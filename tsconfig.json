@@ -11,15 +11,20 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@src/*": ["src/*"],
-      "@src": ["src"],
+      "@common/*": ["src/modules/common/*"],
+      "@common": ["src/modules/common"],
 
       "@modules/*": ["src/modules/*"],
       "@modules": ["src/modules"],
+
+      "@shared/*": ["src/shared/*"],
+      "@shared": ["src/shared"],
+
       "@config/*": ["src/config/*"],
       "@config": ["src/config"],
-      "@shared/*": ["src/shared/*"],
-      "@shared": ["src/shared"]
+
+      "@src/*": ["src/*"],
+      "@src": ["src"]
     },
     "incremental": true,
     "skipLibCheck": true

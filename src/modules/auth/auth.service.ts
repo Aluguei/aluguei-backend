@@ -3,10 +3,10 @@ import { JwtService } from '@nestjs/jwt'
 
 import { LoginPayload, SendForgottenPasswordEmailPayload } from './payloads'
 
-import { ValidationError } from '@modules/common/utils'
+import { ValidationError } from '@common/utils/errors'
 import { User, UsersService } from '@modules/users'
-import { Hash } from '@modules/common/services'
 import { MailService } from '@modules/mail'
+import { Hash } from '@common/services'
 import { authConfig } from '@config'
 
 import { UsersTokensService } from '@modules/usersTokens'

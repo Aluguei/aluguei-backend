@@ -1,5 +1,5 @@
 import { IsNotEmpty, MinLength, IsUUID } from 'class-validator'
-import { SameAs } from '@modules/common/validators'
+import { SameAs } from '@common/validators'
 import { ApiProperty } from '@nestjs/swagger'
 
 const passwordMinLength = 6

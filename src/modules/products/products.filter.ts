@@ -1,5 +1,5 @@
-import { Like } from '@modules/common/utils/typeorm/functions'
-import { FilterService } from '@modules/common/services'
+import { Like } from '@common/utils/typeorm/functions'
+import { FilterService } from '@common/services'
 
 export class ProductsFilter extends FilterService {
   constructor() {

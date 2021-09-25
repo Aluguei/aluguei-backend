@@ -2,7 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common'
 
 import * as chalk from 'chalk'
 
-import { BaseError } from '@modules/common/utils'
+import { BaseError } from '@common/utils/errors'
 
 @Injectable()
 export class LoggerService {

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 
-import { CPF } from '@modules/common/validators'
+import { CPF } from '@common/validators'
 
 export class ForgotPasswordPayload {
   @ApiProperty({

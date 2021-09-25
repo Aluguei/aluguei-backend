@@ -1,6 +1,6 @@
 import { ValueTransformer } from 'typeorm'
 
-import { Hash } from '@modules/common/services'
+import { Hash } from '@common/services'
 
 export class PasswordTransformer implements ValueTransformer {
   to(value: string) {

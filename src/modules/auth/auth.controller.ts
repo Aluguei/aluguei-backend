@@ -4,8 +4,8 @@ import { AuthGuard } from '@nestjs/passport'
 
 import { UserPasswordResetsService } from '@modules/userPasswordResetRequest'
 import { AuthService } from '@modules/auth/auth.service'
-import { CurrentUser } from '@modules/common/decorators'
 import { User, UsersService } from '@modules/users'
+import { CurrentUser } from '@common/decorators'
 
 import {
   ForgotPasswordPayload,
