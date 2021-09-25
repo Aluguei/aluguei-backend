@@ -4,7 +4,10 @@ import {
   ValidationError,
   ValidationPipe
 } from '@nestjs/common'
+
 import { NestFactory } from '@nestjs/core'
+
+import * as helmet from 'helmet'
 
 import { ExceptionHandlingFilter } from '@common/filters'
 import { LoggerService } from '@common/services'
@@ -13,6 +16,8 @@ import { AppModule } from './app.module'
 import { setupSwagger } from './swagger'
 import { appConfig } from './config'
 
+import * as rateLimit from 'express-rate-limit'
+
 export class Server {
   private app: NestExpressApplication
 
@@ -20,6 +25,13 @@ export class Server {
 
   async setupApp() {
     this.app = await NestFactory.create<NestExpressApplication>(AppModule)
+    this.app.use(helmet())
+    this.app.use(
+      rateLimit({
+        windowMs: 30 * 1000,
+        max: 10
+      })
+    )
     this.app.useGlobalFilters(new ExceptionHandlingFilter())
     this.app.useGlobalPipes(
       new ValidationPipe({
