@@ -1,5 +1,9 @@
 import { NestExpressApplication } from '@nestjs/platform-express'
-import { ValidationPipe } from '@nestjs/common'
+import {
+  BadRequestException,
+  ValidationError,
+  ValidationPipe
+} from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 
 import { ExceptionHandlingFilter } from '@common/filters'
@@ -17,7 +21,27 @@ export class Server {
   async setupApp() {
     this.app = await NestFactory.create<NestExpressApplication>(AppModule)
     this.app.useGlobalFilters(new ExceptionHandlingFilter())
-    this.app.useGlobalPipes(new ValidationPipe())
+    this.app.useGlobalPipes(
+      new ValidationPipe({
+        exceptionFactory: (errors: ValidationError[] = []) => {
+          const errorMessages = {}
+
+          errors.forEach((error) => {
+            const errors = Object.values(error.constraints)
+
+            Object.assign(
+              errorMessages,
+              {},
+              {
+                [error.property]: errors
+              }
+            )
+          })
+
+          return new BadRequestException(errorMessages)
+        }
+      })
+    )
   }
 
   async start() {
