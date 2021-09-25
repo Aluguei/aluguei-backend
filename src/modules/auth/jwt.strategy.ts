@@ -32,7 +32,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     const [, accessToken] = authorization.split(' ')
 
-    const user = await this.usersService.get(id)
+    const user = await this.usersService.findOneByQuery({ id })
 
     if (!user) throw new UnauthorizedError()
 

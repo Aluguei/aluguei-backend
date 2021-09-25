@@ -15,7 +15,7 @@ export class UsersService {
   ) {}
 
   async findOneByQuery(
-    query: Record<string, string>,
+    query: Record<string, unknown>,
     { throwError = false } = {}
   ) {
     const user = await this.userRepository.findOne(query)
@@ -23,14 +23,6 @@ export class UsersService {
     if (!user && throwError) throw new NotFoundError({ entity: 'User' })
 
     return user
-  }
-
-  async get(id: number) {
-    return this.userRepository.findOne({ id })
-  }
-
-  async getByEmail(email: string) {
-    return await this.userRepository.findOne({ email })
   }
 
   async create(payload: UserFillableFields) {
@@ -48,7 +40,7 @@ export class UsersService {
   }
 
   async update(id: number, payload: UserUpdatePayload) {
-    const user = await this.get(id)
+    const user = await this.findOneByQuery({ id })
 
     if (!user) throw new NotFoundError({ entity: 'User' })
 

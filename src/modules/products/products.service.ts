@@ -60,13 +60,13 @@ export class ProductsService {
   }
 
   async update(id: number, payload: ProductFillableFields, user: User) {
-    await this.get({ id, owner: user })
+    await this.findOneByQuery({ id, owner: user })
 
     await this.productsRepository.update(id, payload)
   }
 
   async destroy(id: number, user: User) {
-    const product = await this.get({ id, owner: user })
+    const product = await this.findOneByQuery({ id, owner: user })
 
     if (product.isLent) {
       throw new ValidationError({
@@ -77,7 +77,7 @@ export class ProductsService {
     await this.productsRepository.delete(id)
   }
 
-  async get(query: Record<string, unknown>) {
+  async findOneByQuery(query: Record<string, unknown>) {
     try {
       return await this.productsRepository.findOneOrFail(query)
     } catch (error) {
@@ -89,7 +89,7 @@ export class ProductsService {
   }
 
   async rentProduct({ productId }: RentProductPayload, user: User) {
-    const desiredProduct = await this.get({ id: productId })
+    const desiredProduct = await this.findOneByQuery({ id: productId })
 
     if (desiredProduct.owner.id === user.id) {
       throw new ValidationError({
