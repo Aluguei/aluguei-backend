@@ -50,11 +50,11 @@ export class AuthController {
     return user
   }
 
-  @Post('request-forgot-password')
+  @Post('request-reset-password')
   @ApiResponse({ status: 201, description: 'Success' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async forgotPassword(@Body() payload: ForgotPasswordPayload): Promise<void> {
+  async forgotPassword(@Body() payload: ForgotPasswordPayload) {
     const { CPF } = payload
     const user = await this.userService.findOneByQuery(
       { CPF },
@@ -68,6 +68,8 @@ export class AuthController {
       email,
       token
     })
+
+    return { token }
   }
 
   @Put('reset-password')
