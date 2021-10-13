@@ -90,6 +90,20 @@ export class ProductsController {
     return await this.productTransformer.paginate(products)
   }
 
+  @Get('/:productId')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 201, description: 'Success' })
+  async getProduct(@Param('productId') productId: string) {
+    const product = await this.productsService.findOneByQuery({
+      id: productId
+    })
+
+    return await this.productTransformer.item(product)
+  }
+
   @Post('/')
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
