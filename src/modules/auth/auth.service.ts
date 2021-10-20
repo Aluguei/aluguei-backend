@@ -7,7 +7,7 @@ import { ValidationError } from '@common/utils/errors'
 import { User, UsersService } from '@modules/users'
 import { MailService } from '@modules/mail'
 import { Hash } from '@common/services'
-import { authConfig } from '@config'
+import { authConfig, appConfig } from '@config'
 
 import { UsersTokensService } from '@modules/usersTokens'
 
@@ -46,14 +46,16 @@ export class AuthService {
     fullName,
     token
   }: SendForgottenPasswordEmailPayload) {
-    await this.mailService.send({
-      to: email,
-      subject: '[ALUGUEI] - Esqueci a senha',
-      template: './forgotPassword',
-      context: {
-        fullName,
-        token
-      }
-    })
+    if(appConfig.nodeEnv === 'development') {
+      await this.mailService.send({
+        to: email,
+        subject: '[ALUGUEI] - Esqueci a senha',
+        template: './forgotPassword',
+        context: {
+          fullName,
+          token
+        }
+      })
+    }
   }
 }
