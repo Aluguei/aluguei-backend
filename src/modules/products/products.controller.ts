@@ -153,9 +153,12 @@ export class ProductsController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 201, description: 'Success' })
   async rentProduct(
-    @Body() payload: RentProductPayload,
+    @Param('productId') productId: string,
     @CurrentUser() user: User
   ) {
-    return await this.productsService.rentProduct(payload, user)
+    return await this.productsService.rentProduct(
+      { productId: +productId },
+      user
+    )
   }
 }
