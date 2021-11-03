@@ -35,7 +35,8 @@ export class CreateProductPayload {
   price: number
 
   @ApiProperty({
-    required: true
+    required: true,
+    enum: ProductTimeUnitEnum.getSysValues()
   })
   @IsNotEmpty({ message: 'É obrigatório' })
   @IsEnum(ProductTimeUnitEnum.getSysValues(), {
