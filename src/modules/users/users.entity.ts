@@ -16,6 +16,7 @@ import { UserGenderEnum } from './usersGender.enum'
 
 import { UsersTokens } from '../usersTokens/usersTokens.entity'
 
+import { Notification } from '@modules/notifications'
 @Entity({
   name: 'users'
 })
@@ -89,6 +90,9 @@ export class User {
 
   @OneToMany(() => Product, (product) => product.owner)
   ownedProducts: Product[]
+
+  @OneToMany(() => Notification, (notification) => notification.owner)
+  notifications: Notification[]
 
   @OneToMany(() => UsersProducts, (userProducts) => userProducts.user)
   lentProducts: UsersProducts[]

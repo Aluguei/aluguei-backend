@@ -8,6 +8,7 @@ import { UserModule } from '@modules/users'
 import { AuthModule } from '@modules/auth'
 import { MailModule } from '@modules/mail'
 import { dbConfig } from '@config'
+import { NotificationsModule } from '@modules/notifications/notifications.module'
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { dbConfig } from '@config'
     CommonModule,
     AuthModule,
     MailModule,
-    UserModule
+    UserModule,
+    NotificationsModule
   ],
   controllers: [MainController],
   providers: [MainService]
