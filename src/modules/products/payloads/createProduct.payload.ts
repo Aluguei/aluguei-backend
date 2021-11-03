@@ -1,5 +1,7 @@
-import { IsNotEmpty, MaxLength } from 'class-validator'
+import { IsNotEmpty, MaxLength, IsNumber, IsEnum } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
+
+import { ProductTimeUnitEnum } from '../productTimeUnits.enum'
 
 const messageMinLenth = 255
 
@@ -29,17 +31,21 @@ export class CreateProductPayload {
     required: true
   })
   @IsNotEmpty({ message: 'É obrigatório' })
+  @IsNumber({}, { message: 'Precisa ser um número' })
   price: number
 
   @ApiProperty({
     required: true
   })
   @IsNotEmpty({ message: 'É obrigatório' })
-  timeUnit: number
+  @IsEnum(ProductTimeUnitEnum.getSysValues(), {
+    message: `Precisa ser um dos valores: ${ProductTimeUnitEnum.getHumanValues().join()}`
+  })
+  timeUnit: string
 
   @ApiProperty({
     required: true
   })
   @IsNotEmpty({ message: 'É obrigatório' })
-  timeQuantity: string
+  timeQuantity: number
 }

@@ -23,11 +23,7 @@ import { AuthGuard } from '@nestjs/passport'
 import { CurrentUser } from '@common/decorators'
 import { User } from '@modules/users'
 
-import {
-  CreateProductPayload,
-  UpdateProductPayload,
-  RentProductPayload
-} from './payloads'
+import { CreateProductPayload, UpdateProductPayload } from './payloads'
 
 import { ProductsTransformer } from './products.transformer'
 import { ProductsService } from './products.service'

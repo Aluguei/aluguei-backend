@@ -11,6 +11,7 @@ import {
 import { UsersProducts } from '@modules/usersProducts/usersProducts.entity'
 import { User } from '@modules/users'
 
+import { ProductTimeUnitEnum } from './productTimeUnits.enum'
 @Entity({
   name: 'products'
 })
@@ -36,11 +37,11 @@ export class Product {
   @Column()
   price: number
 
-  @Column()
-  timeUnit: number
+  @Column({ enum: ProductTimeUnitEnum.getSysValues() })
+  timeUnit: string
 
   @Column()
-  timeQuantity: string
+  timeQuantity: number
 
   @ManyToOne(() => User, (user) => user.ownedProducts, {
     nullable: false,
@@ -62,10 +63,10 @@ export class Product {
 }
 
 export class ProductFillableFields {
-  timeQuantity: string
+  timeQuantity: number
   description: string
   category: string
-  timeUnit: number
+  timeUnit: string
   price: number
   name: string
 }
