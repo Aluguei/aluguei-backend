@@ -49,8 +49,9 @@ export class NotificationsService {
   }
 
   async viewNotification(id: number, user: User) {
-    await this.findOneByQuery({ id, owner: user })
-    return await this.notificationsRepository.update(id, {
+    await this.findOneByQuery({ id, ownerId: user.id })
+
+    await this.notificationsRepository.update(id, {
       visualizedAt: new Date(),
       isNew: false
     })

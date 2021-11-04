@@ -11,11 +11,14 @@ import { ProductsService } from './products.service'
 import { ProductsFilter } from './products.filter'
 import { Product } from './products.entity'
 
+import { NotificationsModule } from '@modules/notifications'
+
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     TypeOrmModule.forFeature([Product]),
     UsersProductsModule,
+    NotificationsModule,
     UserModule
   ],
   controllers: [ProductsController],

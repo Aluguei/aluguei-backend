@@ -13,12 +13,15 @@ import { NotFoundError } from '../common/utils/errors'
 import { RentProductPayload } from './payloads'
 import { EntityFilterDTO } from '../common/dto'
 
+import { NotificationsService } from '@modules/notifications'
+
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>,
-    protected readonly usersProductsService: UsersProductsService
+    protected readonly usersProductsService: UsersProductsService,
+    protected readonly notificationsService: NotificationsService
   ) {}
 
   async getAvailableToRent(
@@ -103,7 +106,16 @@ export class ProductsService {
       })
     }
 
+    const notificationData = {
+      message: `O usuário ${user.firstName} ${user.lastName} alugou o produto ${desiredProduct.name}`
+    }
+
     await this.usersProductsService.create({ product: desiredProduct, user })
+
+    await this.notificationsService.create({
+      ownerId: desiredProduct.owner.id,
+      data: notificationData
+    })
 
     await this.productsRepository.update(productId, { isLent: true })
   }

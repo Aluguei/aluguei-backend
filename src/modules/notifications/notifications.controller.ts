@@ -1,6 +1,20 @@
-import { ApiBearerAuth, ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiResponse,
+  ApiTags,
+  ApiQuery,
+  ApiParam
+} from '@nestjs/swagger'
 
-import { Controller, UseGuards, Query, Get } from '@nestjs/common'
+import {
+  Controller,
+  UseGuards,
+  Query,
+  Get,
+  Put,
+  Body,
+  Param
+} from '@nestjs/common'
 
 import { AuthGuard } from '@nestjs/passport'
 
@@ -39,5 +53,22 @@ export class NotificationsController {
     )
 
     return await this.notificationTransformer.paginate(notifications)
+  }
+
+  @Put('/:notificationId/view')
+  @ApiParam({ name: 'notificationId' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 201, description: 'Success' })
+  async update(
+    @Param('notificationId') notificationId: string,
+    @CurrentUser() user: User
+  ) {
+    return await this.notificationsService.viewNotification(
+      +notificationId,
+      user
+    )
   }
 }
