@@ -6,7 +6,16 @@ import { User } from './users.entity'
 @Injectable()
 export class UserTransformer extends Bumblebee {
   async transformForRelation(item: User) {
-    const { firstName, lastName, address, state, city, id } = item
+    const {
+      firstName,
+      lastName,
+      phoneOne,
+      phoneTwo,
+      address,
+      state,
+      city,
+      id
+    } = item
 
     const fullName = `${firstName} ${lastName}`
 
@@ -14,6 +23,8 @@ export class UserTransformer extends Bumblebee {
       firstName,
       fullName,
       lastName,
+      phoneOne,
+      phoneTwo,
       address,
       state,
       city,
