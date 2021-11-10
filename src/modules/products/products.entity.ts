@@ -40,7 +40,7 @@ export class Product {
   @Column({ enum: ProductTimeUnitEnum.getSysValues() })
   timeUnit: string
 
-  @Column()
+  @Column({ type: 'float' })
   timeQuantity: number
 
   @ManyToOne(() => User, (user) => user.ownedProducts, {
