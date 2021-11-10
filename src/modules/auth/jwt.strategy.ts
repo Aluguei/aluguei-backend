@@ -44,13 +44,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     if (!token) throw new UnauthorizedError()
 
-    const isTokenValid = dayjs(token.createdAt)
-      .subtract(3, 'hours')
-      .add(token.expiresIn, 'seconds')
-      .isBefore(new Date())
-
-    if (device !== DeviceEnum.mobile && isTokenValid)
-      throw new UnauthorizedError()
+    // const isTokenValid = dayjs(token.createdAt)
+    //   .subtract(3, 'hours')
+    //   .add(token.expiresIn, 'seconds')
+    //   .isBefore(new Date())
 
     delete user.password
 
