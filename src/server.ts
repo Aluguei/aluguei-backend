@@ -26,6 +26,7 @@ export class Server {
   async setupApp() {
     this.app = await NestFactory.create<NestExpressApplication>(AppModule)
     this.app.use(helmet())
+    this.app.enableCors()
     this.app.use(
       rateLimit({
         windowMs: 30 * 1000,
