@@ -12,6 +12,12 @@ export class ProductsFilter extends FilterService {
     }
   }
 
+  category({ category }: Record<string, string>) {
+    return {
+      category
+    }
+  }
+
   isLent({ isLent }: Record<string, boolean>) {
     return {
       isLent

@@ -31,7 +31,7 @@ export class Product {
   @Column({ length: 255 })
   description: string
 
-  @Column({ length: 255, nullable: true })
+  @Column({ enum: ProductTimeUnitEnum.getSysValues(), default: 'others' })
   category: string
 
   @Column()

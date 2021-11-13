@@ -13,4 +13,8 @@ export class BaseEnum {
   static getSysValues() {
     return this.values.map((e) => e.sys)
   }
+
+  static getHumanValueBySys(sys: string) {
+    return this.values.find((e) => e.sys === sys).human
+  }
 }

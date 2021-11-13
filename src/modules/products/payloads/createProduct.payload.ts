@@ -2,6 +2,7 @@ import { IsNotEmpty, MaxLength, IsNumber, IsEnum } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
 import { ProductTimeUnitEnum } from '../productTimeUnits.enum'
+import { ProductCategoriesEnum } from '../productCategories.enum'
 
 const messageMinLenth = 255
 
@@ -25,6 +26,9 @@ export class CreateProductPayload {
     required: true
   })
   @IsNotEmpty({ message: 'É obrigatório' })
+  @IsEnum(ProductCategoriesEnum.getSysValues(), {
+    message: `Precisa ser uma das categorias: ${ProductCategoriesEnum.getHumanValues().join()}`
+  })
   category: string
 
   @ApiProperty({
