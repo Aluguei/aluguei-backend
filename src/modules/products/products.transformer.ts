@@ -5,6 +5,8 @@ import { Product } from './products.entity'
 import { UserTransformer } from '@modules/users'
 import { Injectable } from '@nestjs/common'
 
+import { ProductTimeUnitEnum } from './productTimeUnits.enum'
+
 const userTransformer = new UserTransformer()
 
 @Injectable()
@@ -32,8 +34,14 @@ export class ProductsTransformer extends Bumblebee {
       userTransformer.transformForRelation
     )
 
+    const humanTimeUnit = ProductTimeUnitEnum.getHumanValueBySys(timeUnit)
+
     return {
+      imageUrl: `https://picsum.photos/id/${Math.round(
+        Math.random() * 100
+      )}/600/600`,
       owner: transformedOwner,
+      humanTimeUnit,
       timeQuantity,
       description,
       timeUnit,
