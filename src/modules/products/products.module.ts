@@ -13,10 +13,12 @@ import { Product } from './products.entity'
 
 import { NotificationsModule } from '@modules/notifications'
 
+import { UsersProducts } from '../usersProducts/usersProducts.entity'
+
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    TypeOrmModule.forFeature([Product]),
+    TypeOrmModule.forFeature([Product, UsersProducts]),
     UsersProductsModule,
     NotificationsModule,
     UserModule

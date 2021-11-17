@@ -86,6 +86,31 @@ export class ProductsController {
     return await this.productTransformer.paginate(products)
   }
 
+  @Get('/rented')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 201, description: 'Success' })
+  async getRentedProducts(
+    @CurrentUser() user: User,
+    @Query() query: ProductQuery
+  ) {
+    const [, pagination] = this.productsFilter.getFilters(query)
+
+    const userProducts = await this.productsService.getRentedProducts(
+      { pagination, filter: {} },
+      user
+    )
+
+    const products = userProducts.items.map((e) => e.product)
+
+    return await this.productTransformer.paginate({
+      items: products,
+      meta: userProducts.meta
+    })
+  }
+
   @Get('/:productId')
   @ApiBearerAuth()
   @UseGuards(AuthGuard())

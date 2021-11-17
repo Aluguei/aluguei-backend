@@ -13,6 +13,8 @@ import { NotFoundError } from '../common/utils/errors'
 import { RentProductPayload } from './payloads'
 import { EntityFilterDTO } from '../common/dto'
 
+import { UsersProducts } from '../usersProducts/usersProducts.entity'
+
 import { NotificationsService } from '@modules/notifications'
 
 @Injectable()
@@ -20,6 +22,8 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>,
+    @InjectRepository(UsersProducts)
+    private readonly usersProductsRepository: Repository<UsersProducts>,
     protected readonly usersProductsService: UsersProductsService,
     protected readonly notificationsService: NotificationsService
   ) {}
@@ -50,6 +54,18 @@ export class ProductsService {
     })
 
     return await paginate<Product>(query, {
+      limit: pagination.perPage,
+      page: pagination.page
+    })
+  }
+
+  async getRentedProducts({ pagination }: EntityFilterDTO, owner: User) {
+    const query = this.usersProductsRepository
+      .createQueryBuilder('usersProducts')
+      .innerJoinAndSelect('usersProducts.product', 'product')
+      .where('usersProducts.userId = :userId', { userId: owner.id })
+
+    return await paginate<UsersProducts>(query, {
       limit: pagination.perPage,
       page: pagination.page
     })
