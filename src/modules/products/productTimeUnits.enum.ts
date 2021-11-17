@@ -4,15 +4,15 @@ export class ProductTimeUnitEnum extends BaseEnum {
   static values = [
     {
       sys: 'hourly',
-      human: 'por hora'
+      human: 'hora'
     },
     {
       sys: 'daily',
-      human: 'por dia'
+      human: 'dia'
     },
     {
       sys: 'weekly',
-      human: 'por semana'
+      human: 'semana'
     }
   ]
 }
