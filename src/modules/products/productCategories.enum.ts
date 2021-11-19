@@ -8,7 +8,7 @@ export class ProductCategoriesEnum extends BaseEnum {
     },
     {
       sys: 'technology',
-      human: 'Produtos de tecnoloia'
+      human: 'Produtos de técnologia'
     },
     {
       sys: 'tools',
