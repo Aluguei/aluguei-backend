@@ -52,7 +52,7 @@ export class User {
   })
   gender: string
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable: true })
   phoneOne: string
 
   @Column({ length: 255, nullable: true })

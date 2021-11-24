@@ -65,7 +65,6 @@ export class RegisterPayload {
   @ApiProperty({
     required: true
   })
-  @IsNotEmpty({ message: 'É obrigatório' })
   phoneOne: string
 
   @ApiProperty()
